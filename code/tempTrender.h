@@ -3,6 +3,8 @@
 
 #include <string>
 
+using namespace std;
+
 class tempTrender {
 	public:
 	tempTrender(std::string filePath); //Construct using the specified file
