@@ -9,7 +9,8 @@ tempTrender::tempTrender(string filePath) {
 }
 
 void junkfunc() {
-	string datafile = "../datasets/smhi-opendata_Visby.csv";
-	tempTrender visbyTempData = tempTrender("../datasets/smhi-opendata_Visby.csv");
-	visbyTempData.readFile(datafile);
+	string datafile = "../datasets/smhi-opendata_Visby.csv"; //a relative path to the visby data file in the directory tree.
+	tempTrender visbyTempData = tempTrender("../datasets/smhi-opendata_Visby.csv"); // we create a new instance of the object tempTrender for the visby data.
+	visbyTempData.readFile(datafile); //we call the readFile data function to first create a usefulData file, which improves formatting.
+	//Since this function takes a long time for large data sets, we could have the user be prompted to call this function.
 }
