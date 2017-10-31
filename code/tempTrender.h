@@ -21,10 +21,13 @@ class tempTrender {
 	~tempTrender() {} //Destructor
 	//void tempOnDay(int monthToCalculate, int dayToCalculate); //Make a histogram of the temperature on this day
 	//void tempOnDay(int dateToCalculate); //Make a histogram of the temperature on this date
-	void readFile(string filePath) { 
+	void readFile(string filePath, string cityName) { 
 		ifstream file(filePath.c_str());
-		ofstream usefulData("usefulData.dat"); //we create a file which contains the raw data for easier data processing. This will not have redundant text or comments, the formatting has been remade to
-		//only include spaces for partitions.
+		string datafileName = "usefulData";
+		datafileName.append(cityName);
+		datafileName.append(".dat");
+		ofstream usefulData(datafileName.c_str()); //we create a file which contains the raw data for easier data processing. This will not have redundant text or comments, the formatting has been remade to
+		//only include spaces for partitions. 
 		string line;
 		cout << "processing..."<<endl;
 		while (getline(file, line)) { //this processes the first few lines until the formatting definition. This means that these lines won't be written into the usefulData.dat file.
@@ -79,6 +82,7 @@ class tempTrender {
 		file.close(); //make sure to close the files in the end!
 		usefulData.close();
 	}
+	
 	void tempPerDay(int yearToCompute){ //Make a histogram of the average temperature of each day of the year
 
 	}
