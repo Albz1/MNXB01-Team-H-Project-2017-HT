@@ -2,8 +2,11 @@ Changelog:
 1.01.01.01, 30/10/2017
 Created the project repository and added the changelog.
 
-1.02.01.01, 30/10/2017
+1.01.01.02, 30/10/2017
 Added all important data files and skeleton code to master.
 
-1.02.02.01, 30/10/2017
+1.01.02.01, 30/10/2017
 Added namespace std to all code and added path to project.cpp.
+
+1.01.03.01, 31/10/2017
+Added foundations for the code that supports the reading of the datafiles, and makes the data more accessible.
