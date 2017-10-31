@@ -26,10 +26,16 @@ class tempTrender {
 		ofstream usefulData("usefulData.dat");
 		string line;
 		cout << "processing..."<<endl;
+		while (getline(file, line)) { //this processes the first few lines until the formatting definition. This means that these lines won't be written into the usefulData.dat file.
+			if (line == "Datum;Tid (UTC);Lufttemperatur;Kvalitet;;Tidsutsnitt:" ) {
+				break;
+			}
+		}
+		usefulData << "Datum;Tid (UTC);Lufttemperatur;Kvalitet;;Tidsutsnitt:" <<endl; //but we do still want the formatting line, I guess. so I add it here.
 		while (getline(file, line)) {
 			
 			string yyyy, mm, dd, time, temp, GY;
-			string monthrest, dayrest, timerest, temprest, guyrest;
+			string monthrest, dayrest, timerest, temprest, guyrest, restrest;
 			
 			//separates year
 			stringstream yearstream(line);
@@ -54,9 +60,12 @@ class tempTrender {
 			//separates temp
 			stringstream tempstream(temprest);
 			getline(tempstream, temp, ';');		
-			tempstream >> GY;				
+			tempstream >> guyrest;				
 			
 			//separates G/Y value
+			stringstream guystream(guyrest);
+			getline(guystream, GY, ';');		
+			guystream >> restrest;
 			
 			
 			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
