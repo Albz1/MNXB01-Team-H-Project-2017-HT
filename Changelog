@@ -10,3 +10,6 @@ Added namespace std to all code and added path to project.cpp.
 
 1.01.03.01, 31/10/2017
 Added foundations for the code that supports the reading of the datafiles, and makes the data more accessible.
+
+1.01.03.02, 01/11/2017
+Improved the code that supports reading of datafiles.
