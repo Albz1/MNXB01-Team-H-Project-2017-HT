@@ -19,14 +19,14 @@ void junkfunc() {
 	cin >> userInput;
 	 //we call the readFile data function to first create a usefulData file, which improves formatting.
 	if (userInput == "y") {  //we ask the user if they want to create new data files for lund or visby. 
-		cout << "which of the two cities would you like? [LUND], or [VISBY]. " <<endl;
+		cout << "which of the two cities would you like? Lund [l], or Visby [v]. " <<endl;
 		string cityInput;
 		cin >> cityInput;
-		if (cityInput == "lund" or "LUND" or "Lund" or "L" or "l") {
+		if (cityInput == "l") {
 			lundTempData.readFile(lundDatafilePath,"Lund");
 			goto createfile;
 		}	
-		else if (cityInput == "visby" or "VISBY" or "Visby" or "V "or "v") {
+		else if (cityInput == "v") {
 			visbyTempData.readFile(visbyDatafilePath,"Visby");
 			goto createfile;
 		}

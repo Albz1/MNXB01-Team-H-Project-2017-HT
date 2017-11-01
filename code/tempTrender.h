@@ -35,7 +35,7 @@ class tempTrender {
 				break;
 			}
 		}
-		usefulData << "Datum;Tid (UTC);Lufttemperatur;Kvalitet;;Tidsutsnitt:" <<endl; //but we do still want the formatting line, I guess. so I add it here.
+		usefulData << "Datum Tid (UTC) Lufttemperatur Kvalitet" <<endl; //but we do still want the formatting line, I guess. so I add it here.
 		while (getline(file, line)) {
 			
 			string yyyy, mm, dd, time, temp, GY;
