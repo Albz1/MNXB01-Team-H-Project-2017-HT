@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 //Root libraries
 #include <TF1.h> // 1d function class
 #include <TH1.h> // 1d histogram classes
@@ -71,7 +72,6 @@ class tempTrender {
 			getline(guystream, GY, ';');		
 			guystream >> restrest;
 			
-			
 			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl; //outputs the result into the console / copies the result into the usefulData file.
 			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
 			
@@ -84,7 +84,15 @@ class tempTrender {
 	}
 	
 	void tempPerDay(int yearToCompute){ //Make a histogram of the average temperature of each day of the year
-
+		
+		// 1) First we want a while loop that runs through the data for the specified year, something like "while the first four characters of the line is: yyyy" ...
+		// 2) then we want to run through every day in that year, so for every combination of mm, dd: add the temperature of that data point, and then divide by the nr of data points acquired.
+		// 3) then we would like to plot this data value into a histogram or a graph with the day on the x-axis and temperature on y-axis.
+		
+		//to accomplish 1), and 2); we could loop through the entire data file, and record data only if it matches a specific condition.
+			//we could break after this condition has been fullfilled to save some computing time
+		
+		
 	}
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
