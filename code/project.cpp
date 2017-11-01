@@ -24,11 +24,5 @@ void project() {
 	//t.tempPerDay();
 	//t.hotCold();
 	//t.tempPerYear(2050);
-	
-	//Let's try to read the data file!
-	/* The structure of the data file is: 
-	 * 10 lines of redundant information
-	 * YYYY-MM-DD;hh:mm:ss;-T.T;(G/Y) What is G/Y?
-	 */
 
 }
