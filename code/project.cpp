@@ -1,10 +1,13 @@
 #include "tempTrender.h"
 #include <string>
+#include <fstream>
+#include <limits>
 using namespace std;
 
 
 void project() {
 	string pathToFile = "/home/courseuser/git_project/datasets/smhi-opendata_Visby.csv"; // Only use if you're Albin! Put the path to your data file here
+	
 	//tempTrender t(pathToFile); //Instantiate your analysis object
 	/* USE IF YOU'RE NOT ALBIN
 	cout << "Input path to requested datafile, please." << endl;
