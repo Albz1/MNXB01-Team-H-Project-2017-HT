@@ -37,6 +37,9 @@ class tempTrender {
 			}
 		}
 		usefulData << "Datum Tid (UTC) Lufttemperatur Kvalitet" <<endl; //but we do still want the formatting line, I guess. so I add it here.
+		string dayold = "0", monthold = "0", yearold = "0", GYold = "0", timeold = "0";
+		float temptot = 0;
+		int n = 0;
 		while (getline(file, line)) {
 			
 			string yyyy, mm, dd, time, temp, GY;
@@ -72,13 +75,33 @@ class tempTrender {
 			getline(guystream, GY, ';');		
 			guystream >> restrest;
 			
-			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl; //outputs the result into the console / copies the result into the usefulData file.
-			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
 			
+			
+			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << tempno << ' ' << GY << endl; //outputs the result into the console / copies the result into the usefulData file.
+			
+			if (dayold != "0"){
+				
+				if (dayold != dd){
+					
+					usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << endl;
+					temptot=0;
+					n=0;
+				}
+			}
+			
+			n++;
+			dayold = dd;
+			monthold = mm;
+			yearold = yyyy;
+			GYold = GY;
+			timeold = time;
+			temptot += tempno;
 			//
 
 		}
 		cout << "done" <<endl;
+		usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << endl;
 		file.close(); //make sure to close the files in the end!
 		usefulData.close();
 	}
