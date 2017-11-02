@@ -4,15 +4,21 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+<<<<<<< HEAD
+=======
 #include <cmath>
 #include <vector>
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 //Root libraries
 #include <TF1.h> // 1d function class
 #include <TH1.h> // 1d histogram classes
 #include <TStyle.h>  // style object
 #include <TMath.h>   // math functions
 #include <TCanvas.h> // canvas object
+<<<<<<< HEAD
+=======
 #include <TGraph.h> //Graph object
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 
 using namespace std;
 
@@ -24,6 +30,29 @@ class tempTrender {
 	~tempTrender() {} //Destructor
 	//void tempOnDay(int monthToCalculate, int dayToCalculate); //Make a histogram of the temperature on this day
 	//void tempOnDay(int dateToCalculate); //Make a histogram of the temperature on this date
+<<<<<<< HEAD
+<<<<<<< HEAD
+	void tempPerDay(); //Make a histogram of the average temperature of each day of the year
+=======
+	void readFile(string filePath) {
+		ifstream file(filePath.c_str());
+		ofstream usefulData("usefulData.dat");
+		string line;
+		cout << "processing..."<<endl;
+		while (getline(file, line)) {
+			
+			string yyyy, mm, dd, time, temp, GY;
+			string monthrest, dayrest, timerest, temprest, guyrest;
+			
+			//separates year
+			stringstream yearstream(line);
+			getline(yearstream, yyyy, '-');
+			yearstream >>monthrest;
+			
+			//separates month
+			stringstream monthstream(monthrest);
+			getline(monthstream,mm,'-');
+=======
 
 	void readFile(string filePath, string cityName) { 
 		ifstream file(filePath.c_str());
@@ -56,6 +85,7 @@ class tempTrender {
 			//separates month
 			stringstream monthstream(monthrest); 	//we successively do this process for each partition. it could possibly have been done in a loop
 			getline(monthstream,mm,'-'); 			//but that would complicate it since we wanted to remove both - and ; from the dataset.
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 			monthstream >> dayrest;
 			
 			//separates day
@@ -71,6 +101,16 @@ class tempTrender {
 			//separates temp
 			stringstream tempstream(temprest);
 			getline(tempstream, temp, ';');		
+<<<<<<< HEAD
+			tempstream >> GY;				
+			
+			//separates G/Y value
+			
+			
+			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			
+=======
 			tempstream >> guyrest;				
 			
 			//separates G/Y value
@@ -100,10 +140,20 @@ class tempTrender {
 			GYold = GY;
 			timeold = time;
 			temptot += tempno;
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 			//
 
 		}
 		cout << "done" <<endl;
+<<<<<<< HEAD
+		file.close();
+		usefulData.close();
+	}
+	void tempPerDay(int yearToCompute){ //Make a histogram of the average temperature of each day of the year
+
+	}
+>>>>>>> 84497f606cdb3e19ae5be378cd1b2a7252194663
+=======
 		usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << endl;
 		file.close(); //make sure to close the files in the end!
 		usefulData.close();
@@ -159,6 +209,7 @@ class tempTrender {
 	    gr->Draw("AC*");
 		usefulData.close();
 	}
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
 
@@ -217,7 +268,10 @@ class tempTrender {
 	private:
 	unsigned short day;
 	unsigned short month;
+<<<<<<< HEAD
+=======
 	
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 };
 
 #endif
