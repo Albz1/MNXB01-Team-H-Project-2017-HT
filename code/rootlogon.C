@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // include C++ STL headers 
 #include <iostream>
 #include <fstream>
@@ -12,6 +13,8 @@ using namespace std;
 #include <TCanvas.h> // canvas object 
 
 
+=======
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
 void rootlogon() {
 	
 /*	  // create histogram that we will fill with random values

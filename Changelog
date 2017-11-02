@@ -10,3 +10,22 @@ Added namespace std to all code and added path to project.cpp.
 
 1.01.03.01, 31/10/2017
 Added foundations for the code that supports the reading of the datafiles, and makes the data more accessible.
+<<<<<<< HEAD
+=======
+
+1.01.03.02, 01/11/2017
+Improved the code that supports reading of datafiles.
+
+1.01.03.03, 01/11/2017
+Changed the code so that the temperature measurements are now averaged and added together so that the entry for each date gives one
+average temperature rather than each temperature measurement for every day, giving many measurements for each day.
+
+1.01.04.01, 02/11/2017
+Added the foundations for code that checks the average temperature of each day in a year.
+
+1.01.04.02, 02/11/2017
+Added a way of plotting the mean temperatures of every day in a single year, error bars remain, however.
+
+1.01.05.01, 02/11/2017
+Added a way to measure the temperature of one day through every year measured.
+>>>>>>> 524ab4bed4a2441c5f2385906dd2ec4313892daf
