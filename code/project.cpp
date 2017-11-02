@@ -1,6 +1,7 @@
 #include "tempTrender.h"
 #include <string>
 #include <fstream>
+#include <limits>
 #include <vector>
 using namespace std;
 //Root libraries
@@ -12,8 +13,8 @@ using namespace std;
 
 
 void project() {
+	string pathToFile = "/home/courseuser/git_project/datasets/smhi-opendata_Visby.csv"; // Only use if you're Albin! Put the path to your data file here
 	string pathToVisby = "../datasets/smhi-opendata_Visby.csv"; // Now contains the relative path, works in console, not sure how it will react in code
-	string pathToLund = "../datasets/smhi-opendata_Lund.csv";
 
 	//tempTrender t(pathToFile); //Instantiate your analysis object
 	
@@ -22,5 +23,4 @@ void project() {
 	//t.tempPerDay();
 	//t.hotCold();
 	//t.tempPerYear(2050);
-
 }
