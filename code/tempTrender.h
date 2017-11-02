@@ -22,6 +22,49 @@ class tempTrender {
 	~tempTrender() {} //Destructor
 	//void tempOnDay(int monthToCalculate, int dayToCalculate); //Make a histogram of the temperature on this day
 	//void tempOnDay(int dateToCalculate); //Make a histogram of the temperature on this date
+	string fileSeparation(string line) {
+		string dataArray[5];
+		string yyyy, mm, dd, time, temp, GY;
+		string monthrest, dayrest, timerest, temprest, guyrest, restrest;
+		
+		//separates year
+		stringstream yearstream(line); //we create a stringstream of the full line and process it so that whatever comes before the first '-'in the line is put into the variable yyyy.
+		getline(yearstream, yyyy, '-'); //this little bit of code also removes the -. This basically helps us with formatting the data set for easier readability!
+		yearstream >>monthrest; //then we create a rest-string which now starts with the month
+		dataArray[0] = yyyy;
+		
+		//separates month
+		stringstream monthstream(monthrest); 	//we successively do this process for each partition. it could possibly have been done in a loop
+		getline(monthstream,mm,'-'); 			//but that would complicate it since we wanted to remove both - and ; from the dataset.
+		monthstream >> dayrest;
+		dataArray[1] = mm;
+		
+		//separates day
+		stringstream daystream(dayrest);
+		getline(daystream,dd,';');
+		daystream >> timerest;
+		dataArray[2] = dd;
+		
+		//separates time
+		stringstream timestream(timerest);
+		getline(timestream,time,';');
+		timestream >> temprest;
+		dataArray[3] = time;
+		
+		//separates temp
+		stringstream tempstream(temprest);
+		getline(tempstream, temp, ';');		
+		tempstream >> guyrest;
+		dataArray[4] = temp;	
+		
+		//separates G/Y value
+		stringstream guystream(guyrest);
+		getline(guystream, GY, ';');		
+		guystream >> restrest;
+		dataArray[5] = GY;
+		
+		return dataArray;
+	}
 	void readFile(string filePath, string cityName) { 
 		ifstream file(filePath.c_str());
 		string datafileName = "usefulData";
