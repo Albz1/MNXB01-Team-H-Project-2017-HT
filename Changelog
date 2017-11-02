@@ -13,3 +13,7 @@ Added foundations for the code that supports the reading of the datafiles, and m
 
 1.01.03.02, 01/11/2017
 Improved the code that supports reading of datafiles.
+
+1.01.03.03, 01/11/2017
+Changed the code so that the temperature measurements are now averaged and added together so that the entry for each date gives one
+average temperature rather than each temperature measurement for every day, giving many measurements for each day.
