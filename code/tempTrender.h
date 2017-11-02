@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <vector>
 //Root libraries
 #include <TF1.h> // 1d function class
 #include <TH1.h> // 1d histogram classes
@@ -36,7 +37,7 @@ class tempTrender {
 				break;
 			}
 		}
-		usefulData << "Datum Tid (UTC) Lufttemperatur Kvalitet" <<endl; //but we do still want the formatting line, I guess. so I add it here.
+		//usefulData << "Datum Tid (UTC) Lufttemperatur Kvalitet" <<endl; //but we do still want the formatting line, I guess. so I add it here.
 		string dayold = "0", monthold = "0", yearold = "0", GYold = "0", timeold = "0";
 		float temptot = 0;
 		int n = 0;
@@ -106,7 +107,40 @@ class tempTrender {
 		usefulData.close();
 	}
 	
-	void tempPerDay(int yearToCompute){ //Make a histogram of the average temperature of each day of the year
+	void tempPerDay(string cityName, int yearToCompute){ //Make a histogram of the average temperature of each day of the year
+		
+		string datafileName = "usefulData";
+		datafileName.append(cityName);
+		datafileName.append(".dat");
+		ifstream usefulData(datafileName.c_str());
+		
+		vector<float> temperatures;
+		
+		
+		string year, month, day, temp, line, status;
+		
+		while (getline(usefulData, line)){
+			
+			usefulData >> year >> month >> day >> temp >> status;
+			
+			int yearnow = ::atoi(year.c_str()); //turns the year into an integer
+			
+			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+			
+			
+			if (yearToCompute == yearnow){
+				
+				cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
+				temperatures.push_back (tempno);
+				
+			}
+			
+			
+			
+			
+			
+		}
+		
 		
 		// 1) First we want a while loop that runs through the data for the specified year, something like "while the first four characters of the line is: yyyy" ...
 		// 2) then we want to run through every day in that year, so for every combination of mm, dd: add the temperature of that data point, and then divide by the nr of data points acquired.
@@ -116,10 +150,16 @@ class tempTrender {
 			//we could break after this condition has been fullfilled to save some computing time
 		
 		
+		
+		usefulData.close();
 	}
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
-
+	
+	
+	
+	
+	
 	private:
 	unsigned short day;
 	unsigned short month;
