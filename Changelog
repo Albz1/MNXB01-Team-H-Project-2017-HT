@@ -23,3 +23,6 @@ Added the foundations for code that checks the average temperature of each day i
 
 1.01.04.02, 02/11/2017
 Added a way of plotting the mean temperatures of every day in a single year, error bars remain, however.
+
+1.01.05.01, 02/11/2017
+Added a way to measure the temperature of one day through every year measured.
