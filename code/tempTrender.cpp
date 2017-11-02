@@ -36,3 +36,26 @@ void junkfunc() {
 
 	
 }
+
+
+void temperatureOnDay(){
+	string cityFile;
+	string userInput;
+	
+	cout << "Would you like to check Lund (l) or Visby (v) data?" << endl;
+	if (userInput == "v") { 
+		cityFile = "usefulDataVisby.dat";
+	}
+	else if (userInput == "l") {
+			cityFile = "usefulDataLund.dat";
+	}
+	else {cout << "very well. " <<endl;}
+	
+	tempTrender daytemp = tempTrender(cityFile);
+	daytemp.tempOnDay(cityFile);
+	
+
+
+}
+
+

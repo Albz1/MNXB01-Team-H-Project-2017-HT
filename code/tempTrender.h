@@ -120,9 +120,62 @@ class tempTrender {
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
 
+
+	void tempOnDay(string cityFile = usefulDataVisby.dat) {
+		vector<short> temperature;
+		cout << "Choose a month." << endl;
+		cin >> day;
+		cout << "Choose a day." << endl;
+		cin >> month;
+		
+		ifstream file(cityFile);
+		cout << cityFile << endl;
+		double dummyYear;
+		string dummyTime;
+		int test = 0;
+		int fdd; // day from the file
+		int fmm; // month from the file
+		float temp; // temperature value
+		string line;
+		/*
+		while (getline(file, line)) {
+			file >> dummyYear >> fmm >> fdd >> dummyTime >> temp;
+			cout << fmm << " " << fdd << endl;
+			
+				
+			if(fmm == month){
+			}	
+			else if (fdd == day){
+				cout << "step 2" << endl;
+				temperature.push_back(temp);
+					
+				
+			}
+			cout << temperature[test];
+			cout << "step 3" << endl;
+			test++;
+	}
+	*/
+}
+
+
+
+
+
+
+
 	private:
 	unsigned short day;
 	unsigned short month;
+	
 };
 
 #endif
+
+
+
+
+
+
+
+

@@ -1,5 +1,3 @@
-
-using namespace std;
 void rootlogon() {
   gStyle->SetOptStat(0); //Let's make our plots look a bit better. Get rid of the stat box
   gStyle->SetOptTitle(0); //Get rid of the title (good plots use legends instead)
