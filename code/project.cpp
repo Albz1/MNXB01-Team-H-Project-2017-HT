@@ -1,6 +1,7 @@
 #include "tempTrender.h"
 #include <string>
 #include <fstream>
+#include <vector>
 using namespace std;
 //Root libraries
 #include <TF1.h> // 1d function class
@@ -15,10 +16,7 @@ void project() {
 	string pathToLund = "../datasets/smhi-opendata_Lund.csv";
 
 	//tempTrender t(pathToFile); //Instantiate your analysis object
-	/* USE IF YOU'RE NOT ALBIN
-	cout << "Input path to requested datafile, please." << endl;
-	cin >> pathToFile;
-	*/
+	
 	//t.tempOnDay(8, 23); //Call some functions that you've implemented
 	//t.tempOnDay(235);
 	//t.tempPerDay();
