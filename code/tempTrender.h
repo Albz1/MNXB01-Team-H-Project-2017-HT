@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+
 //Root libraries
 #include <TF1.h> // 1d function class
 #include <TH1.h> // 1d histogram classes
@@ -25,6 +26,26 @@ class tempTrender {
 	~tempTrender() {} //Destructor
 	//void tempOnDay(int monthToCalculate, int dayToCalculate); //Make a histogram of the temperature on this day
 	//void tempOnDay(int dateToCalculate); //Make a histogram of the temperature on this date
+	
+	void readFile(string filePath) {
+		ifstream file(filePath.c_str());
+		ofstream usefulData("usefulData.dat");
+		string line;
+		cout << "processing..."<<endl;
+		while (getline(file, line)) {
+			
+			string yyyy, mm, dd, time, temp, GY;
+			string monthrest, dayrest, timerest, temprest, guyrest;
+			
+			//separates year
+			stringstream yearstream(line);
+			getline(yearstream, yyyy, '-');
+			yearstream >>monthrest;
+			
+			//separates month
+			stringstream monthstream(monthrest);
+			getline(monthstream,mm,'-');
+		}
 
 	void readFile(string filePath, string cityName) { 
 		ifstream file(filePath.c_str());
@@ -32,7 +53,7 @@ class tempTrender {
 		datafileName.append(cityName);
 		datafileName.append(".dat");
 		ofstream usefulData(datafileName.c_str()); //we create a file which contains the raw data for easier data processing. This will not have redundant text or comments, the formatting has been remade to
-		//only include spaces for partitions. 
+		//only include spaces for partitions. This is done because we can process files with this formatting very quickly, so the other functions will run smoothly!
 		string line;
 		cout << "processing..."<<endl;
 		while (getline(file, line)) { //this processes the first few lines until the formatting definition. This means that these lines won't be written into the usefulData.dat file.
@@ -72,6 +93,14 @@ class tempTrender {
 			//separates temp
 			stringstream tempstream(temprest);
 			getline(tempstream, temp, ';');		
+			tempstream >> GY;				
+			
+			//separates G/Y value
+			
+			
+			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			
 			tempstream >> guyrest;				
 			
 			//separates G/Y value
@@ -101,10 +130,15 @@ class tempTrender {
 			GYold = GY;
 			timeold = time;
 			temptot += tempno;
-			//
-
 		}
 		cout << "done" <<endl;
+		file.close();
+		usefulData.close();
+	}
+	void tempPerDay(int yearToCompute){ //Make a histogram of the average temperature of each day of the year
+
+	}
+
 		usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << endl;
 		file.close(); //make sure to close the files in the end!
 		usefulData.close();
@@ -206,7 +240,6 @@ class tempTrender {
 	private:
 	unsigned short day;
 	unsigned short month;
-	
 };
 
 #endif
