@@ -12,6 +12,7 @@
 #include <TStyle.h>  // style object
 #include <TMath.h>   // math functions
 #include <TCanvas.h> // canvas object
+#include <TGraph.h> //Graph object
 
 using namespace std;
 
@@ -23,6 +24,7 @@ class tempTrender {
 	~tempTrender() {} //Destructor
 	//void tempOnDay(int monthToCalculate, int dayToCalculate); //Make a histogram of the temperature on this day
 	//void tempOnDay(int dateToCalculate); //Make a histogram of the temperature on this date
+
 	void readFile(string filePath, string cityName) { 
 		ifstream file(filePath.c_str());
 		string datafileName = "usefulData";
@@ -130,27 +132,31 @@ class tempTrender {
 			
 			if (yearToCompute == yearnow){
 				
-				cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
+				//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
 				temperatures.push_back (tempno);
-				
+				cout << tempno<<endl;
 			}
 			
-			
-			
-			
-			
 		}
-		
-		
-		// 1) First we want a while loop that runs through the data for the specified year, something like "while the first four characters of the line is: yyyy" ...
-		// 2) then we want to run through every day in that year, so for every combination of mm, dd: add the temperature of that data point, and then divide by the nr of data points acquired.
-		// 3) then we would like to plot this data value into a histogram or a graph with the day on the x-axis and temperature on y-axis.
-		
-		//to accomplish 1), and 2); we could loop through the entire data file, and record data only if it matches a specific condition.
-			//we could break after this condition has been fullfilled to save some computing time
-		
-		
-		
+		int n = temperatures.size();
+		/*float xaxis[n];
+		float yaxis[n];
+		vector<float> x;
+		for (int i = 0; i<temperatures.size(); i++) { //every element in temperatures
+			xaxis[i] = i+1;
+			yaxis[i] = temperatures.at(i);
+		}
+		TGraph *gr = new TGraph(xaxis, yaxis, n);
+		TCanvas *c1 = new TCanvas("header","something 1", 200,10,600,400);
+		gr->Draw("AC*");*/
+		TCanvas *c1 = new TCanvas("c1","A Simple Graph Example",200,10,700,500);
+		Float_t x[n], y[n];
+		for (Int_t i=0;i<n;i++) {
+			x[i] = i+1;
+			y[i] = temperatures.at(i);
+	    }
+	    TGraph* gr = new TGraph(n,x,y);	
+	    gr->Draw("AC*");
 		usefulData.close();
 	}
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
