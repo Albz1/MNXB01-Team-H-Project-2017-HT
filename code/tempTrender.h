@@ -161,14 +161,71 @@ class tempTrender {
 	}
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
+
+
+	void tempOnDay(string cityFile = "NaN") {
+		cout << "Using file: " << cityFile << endl;
+		
+		vector<float> temperature;
+		cout << "Choose a month." << endl;
+		cin >> month;
+		cout << "Choose a day." << endl;
+		cin >> day;
+		
+		ifstream file(cityFile.c_str());
+		
+		double dummyYear;
+		string dummyTime;
+		int test = 0;
+		int fdd; // day from the file
+		int fmm; // month from the file
+		float temp; // temperature value
+		string line;
+
+		while (getline(file, line)) {
+			file >> dummyYear >> fmm >> fdd >> temp;
+			
+				
+			if(fmm == month && fdd == day){
+				temperature.push_back(temp);
+				cout << dummyYear << "-" << fmm << "-" << fdd << " " << temperature.at(test) << endl;
+				test++;
+					
+				
+			}
+			
+			
+	}
+		
+
+}
+
+
+
+
+
+
+/*
+=======
 	
 	
 	
 	
 	
+>>>>>>> 0a18acbaefecca0cfcb00502e69312952ffdd4fe
+*/
 	private:
 	unsigned short day;
 	unsigned short month;
+	
 };
 
 #endif
+
+
+
+
+
+
+
+
