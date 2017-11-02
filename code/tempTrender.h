@@ -13,6 +13,7 @@
 #include <TMath.h>   // math functions
 #include <TCanvas.h> // canvas object
 #include <TGraph.h> //Graph object
+#include <TApplication.h> //Helps draw graph instantly!
 
 using namespace std;
 
@@ -109,8 +110,9 @@ class tempTrender {
 		usefulData.close();
 	}
 	
-	void tempPerDay(string cityName, int yearToCompute){ //Make a histogram of the average temperature of each day of the year
+	void tempPerDay(string cityName, int yearToCompute){ //Make a histogram of the average temperature of each day of the year || Still need to work on the plot window...
 		
+		TApplication *canvas = new TApplication("App",0,0);
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
 		datafileName.append(".dat");
@@ -124,12 +126,12 @@ class tempTrender {
 		while (getline(usefulData, line)){
 			
 			usefulData >> year >> month >> day >> temp >> status;
-			
+
 			int yearnow = ::atoi(year.c_str()); //turns the year into an integer
-			
+
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
-			
-			
+
+
 			if (yearToCompute == yearnow){
 				
 				//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
@@ -139,24 +141,17 @@ class tempTrender {
 			
 		}
 		int n = temperatures.size();
-		/*float xaxis[n];
-		float yaxis[n];
-		vector<float> x;
-		for (int i = 0; i<temperatures.size(); i++) { //every element in temperatures
-			xaxis[i] = i+1;
-			yaxis[i] = temperatures.at(i);
-		}
-		TGraph *gr = new TGraph(xaxis, yaxis, n);
-		TCanvas *c1 = new TCanvas("header","something 1", 200,10,600,400);
-		gr->Draw("AC*");*/
-		TCanvas *c1 = new TCanvas("c1","A Simple Graph Example",200,10,700,500);
+		TCanvas *c1 = new TCanvas("c1","Temperature of given year for each day",200,10,700,500);
 		Float_t x[n], y[n];
 		for (Int_t i=0;i<n;i++) {
 			x[i] = i+1;
 			y[i] = temperatures.at(i);
-	    }
-	    TGraph* gr = new TGraph(n,x,y);	
-	    gr->Draw("AC*");
+		}
+		TGraph* gr = new TGraph(n,x,y);	
+		gr->Draw("AL");
+		c1->Modified();
+		c1->Update();
+
 		usefulData.close();
 	}
 	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
@@ -166,7 +161,8 @@ class tempTrender {
 	void tempOnDay(string cityFile = "NaN") {
 		cout << "Using file: " << cityFile << endl;
 		
-		vector<float> temperature;
+		vector<double> temperature;
+		vector<double> yearvec;
 		cout << "Choose a month." << endl;
 		cin >> month;
 		cout << "Choose a day." << endl;
@@ -184,36 +180,29 @@ class tempTrender {
 
 		while (getline(file, line)) {
 			file >> dummyYear >> fmm >> fdd >> temp;
-			
-				
+		
 			if(fmm == month && fdd == day){
 				temperature.push_back(temp);
+				yearvec.push_back((float) dummyYear);
 				cout << dummyYear << "-" << fmm << "-" << fdd << " " << temperature.at(test) << endl;
-				test++;
-					
-				
+				test++;				
 			}
-			
-			
-	}
+		}
+		int n = temperature.size();
+		TCanvas *c1 = new TCanvas("c1","Temperature of given day for each year",200,10,700,500);
+		Float_t x[n], y[n];
+		for (Int_t i=0;i<n;i++) {
+			x[i] = yearvec.at(i);
+			y[i] = temperature.at(i);
+		}
+		TGraph* gr = new TGraph(n,x,y);	
+		gr->Draw("AL");
+		c1->Modified();
+		c1->Update();
 		
-
-}
-
-
-
-
-
-
-/*
-=======
-	
-	
-	
-	
-	
->>>>>>> 0a18acbaefecca0cfcb00502e69312952ffdd4fe
-*/
+		file.close();
+	}
+	//I don't think we're using these...
 	private:
 	unsigned short day;
 	unsigned short month;
