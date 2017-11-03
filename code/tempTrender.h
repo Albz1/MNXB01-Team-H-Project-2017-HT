@@ -74,14 +74,6 @@ class tempTrender {
 			//separates temp
 			stringstream tempstream(temprest);
 			getline(tempstream, temp, ';');		
-			tempstream >> GY;				
-			
-			//separates G/Y value
-			
-			
-			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			
 			tempstream >> guyrest;				
 			
 			//separates G/Y value
