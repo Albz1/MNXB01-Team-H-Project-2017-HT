@@ -116,9 +116,7 @@ class tempTrender {
 		datafileName.append(cityName);
 		datafileName.append(".dat");
 		ifstream usefulData(datafileName.c_str());
-		
 		vector<float> temperatures;
-		
 		
 		string year, month, day, temp, line, status;
 		
