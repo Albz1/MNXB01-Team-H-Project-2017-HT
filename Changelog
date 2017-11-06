@@ -43,3 +43,5 @@ removed the now unnecessary SDmonth function.
 1.01.07.01, 06/11/2017
 Added a function which compares the mean temperature of a given year between the two datasets used (visby and lund).
 
+1.01.07.02, 06/11/2017
+Commented some code in the header file.
