@@ -95,4 +95,19 @@ void temperatureOnDay(){
 
 }
 
+void GYcomparison(){
+	string cityFile = "usefulDataVisby.dat" ;
+	
+	tempTrender Variance(cityFile);
+	Variance.GY_comparison(cityFile);
+}
+
+void SDmonth(){
+	string cityFile = "usefulDataVisby.dat" ;
+	
+	tempTrender SD(cityFile);
+	SD.SDofamonth(cityFile);
+}
+	
+
 

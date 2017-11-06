@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <numeric> //added this. Marcus
 
 //Root libraries
 #include <TF1.h> // 1d function class
@@ -74,12 +75,22 @@ class tempTrender {
 			//separates temp
 			stringstream tempstream(temprest);
 			getline(tempstream, temp, ';');		
-			tempstream >> guyrest;				
+
+			tempstream >> GY;				
 			
 			//separates G/Y value
 			stringstream guystream(guyrest);
 			getline(guystream, GY, ';');		
 			guystream >> restrest;
+			
+			
+			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
+			
+
+			tempstream >> guyrest;				
+			
+			
 			
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
 			
@@ -201,10 +212,102 @@ class tempTrender {
 		
 		file.close();
 	}
+	
+	void GY_comparison(string cityFile = "NaN") { //was not able to do the Y/G comparison since we don't include them in the "usefulData" file
+		cout << "Using file: " << cityFile << endl;
+		vector<double> temperatureY;
+		vector<double> temperatureG;
+		double year;
+		cout << "Choose a year." << endl;
+		cin >> year;
+		
+		ifstream file(cityFile.c_str());
+		
+		double fYear;
+		string dummyTime;
+		int test = 0;
+		int dummyday; // day from the file
+		int dummymonth; // month from the file
+		float temp; // temperature value
+		string GY;
+		string line;
+		
+		while (getline(file, line)) {
+			file >> fYear >> dummymonth >> dummyday >> temp;
+		
+			if(fYear == year){ //&& GY == 'Y' dummymonth == 12
+				temperatureY.push_back(temp);
+//				dayvec.push_back((float) dummyday);
+				cout << fYear << "-" << dummymonth << "-" << dummyday << " " << temperatureY.at(test) << endl;
+				test++;				
+			}
+			
+/*			else if (fYear == year && dummymonth == 03){
+				temperatureG.push_back(temp);
+//				dayvec.push_back((float) dummyday);
+				cout << fYear << "-" << dummymonth << "-" << dummyday << " " << temperatureG.at(test) << endl;
+				test++;	
+			}*/
+			
+		}
+		cout << "\n" << "The warmest measured temperature was " << *max_element(temperatureY.begin(), temperatureY.end()) << " Degrees" << endl;
+		cout << "While the coldest temperature was " << *min_element(temperatureY.begin(), temperatureY.end()) << " Degrees" << endl;
+		
+	}
+	
+	void SDofamonth(string cityFile = "NaN") { //should have a for loop in order to itterate over each value of a single day. and do the standard deviation. Here I only do it over a month
+		//What the code should do: pick a year. Have the standard deviation I created do the calculation over a whole day. Then go to the next day and do the same again
+		cout << "Using file: " << cityFile << endl;
+		vector<double> temperature;
+		double year;
+//		double month;
+		cout << "Choose a month." << endl;
+		cin >> month;
+		cout << "Choose a year to start from. " << endl;
+		cin >> year;
+		
+		ifstream file(cityFile.c_str());
+		
+		double fYear;
+		string dummyTime;
+		int test = 0;
+		int dummyday; // day from the file
+		int fmonth; // month from the file
+		float temp; // temperature value
+		string line;
+		
+		double SumTemp = 0;
+		while (getline(file, line)) {
+			file >> fYear >> fmonth >> dummyday >> temp;
+			
+			if (fmonth = month && fYear == year){
+				temperature.push_back(temp);
+				SumTemp += temp;
+				cout << fYear << "-" << fmonth << "-" << dummyday << " " << temperature.at(test) << endl;
+				test++;	
+		}
+		
+	}
+	double ST = accumulate(temperature.begin(), temperature.end(), 0);
+	cout << "Sum of temperatures using a for loop " << SumTemp << endl;
+	cout << "Sum of temperatures summing elements of a vector " << ST << endl;
+	
+	cout << "nEntries " << temperature.size() << endl;
+	double nEntries = temperature.size();
+	double MeanM = SumTemp / nEntries;
+	cout << "Mean " << MeanM << endl;
+	
+	double StandardDiv =0.;
+	for (int i = 0; i<nEntries; i++){
+		StandardDiv += (temperature.at(i) - MeanM) * (temperature.at(i) - MeanM);
+		
+	}
+	cout << "Standard Deviation " << sqrt(StandardDiv/nEntries) << endl;
+}
 	//I don't think we're using these...
 	private:
 	unsigned short day;
-	unsigned short month;
+	unsigned short month; 
 };
 
 #endif
