@@ -32,3 +32,6 @@ Added plot for tempOnDay and made the canvas appear immediately.
 
 1.01.06.01, 06/11/2017
 Added code for a GY-comparison function and the standard deviation of temperature during a month.
+
+1.01.06.02, 06/11/2017
+Fixed a few bugs with temptrender.h.
