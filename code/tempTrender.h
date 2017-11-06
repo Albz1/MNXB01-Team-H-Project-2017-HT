@@ -82,14 +82,7 @@ class tempTrender {
 			getline(guystream, GY, ';');	
 			guystream >> restrest;
 			
-			
-			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;			
-			
-			
-			
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
-			
 			
 			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << tempno << ' ' << GY << endl; //outputs the result into the console / copies the result into the usefulData file.
 			
@@ -118,7 +111,6 @@ class tempTrender {
 	
 	void tempPerDay(string cityName, int yearToCompute){ //Make a histogram of the average temperature of each day of the year || Still need to work on the plot window...
 		
-		TApplication *canvas = new TApplication("App",0,0);
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
 		datafileName.append(".dat");
@@ -303,6 +295,49 @@ class tempTrender {
 	//I don't think we're using these...
 	
 	void compareData() { //Should compare results for the other functions between the lund and visby data sets
+		cout << "Pick a function [yearmean], [tempOnDay], [GYcomp], [SDofmonth]"<<endl; //I will default this to temperature during a year.
+		string usrChoice = "yearmean";
+		
+		if (usrChoice == "yearmean") {
+			//this should print a graph of the difference in temperature between lund and visby (lundT-visbyT)
+			
+			string lundFileName = "usefulDataLund.dat";
+			string visbyFileName = "usefulDataVisby.dat";
+			ifstream UDLund(lundFileName.c_str());
+			ifstream UDVisby(visbyFileName.c_str());
+			vector<float> lundT;
+			vector<float> visbyT;
+			vector<float> diff_T
+			string year, month, day, temp, line, status;
+			
+			while (getline(UDLund, line)){
+				
+				int yearnow = ::atoi(year.c_str()); //turns the year into an integer
+
+				float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+
+
+				if (yearToCompute == yearnow){
+					
+					//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
+					temperatures.push_back (tempno);
+					cout << tempno<<endl;
+				}	
+			}
+			while (getline(UDVisby, line)){
+				
+				int yearnow = ::atoi(year.c_str()); //turns the year into an integer
+
+				float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+
+
+				if (yearToCompute == yearnow){
+					
+					//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
+					temperatures.push_back (tempno);
+					cout << tempno<<endl;
+				}	
+			}
 		
 	}
 	private:
