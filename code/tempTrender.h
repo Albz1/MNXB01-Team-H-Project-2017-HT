@@ -75,21 +75,12 @@ class tempTrender {
 			//separates temp
 			stringstream tempstream(temprest);
 			getline(tempstream, temp, ';');		
-
-			tempstream >> GY;				
+			tempstream >> guyrest;				
 			
 			//separates G/Y value
 			stringstream guystream(guyrest);
 			getline(guystream, GY, ';');		
 			guystream >> restrest;
-			
-			
-			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			
-
-			tempstream >> guyrest;				
-			
 			
 			
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
@@ -122,7 +113,7 @@ class tempTrender {
 	
 	void tempPerDay(string cityName, int yearToCompute){ //Make a histogram of the average temperature of each day of the year || Still need to work on the plot window...
 		
-		TApplication *canvas = new TApplication("App",0,0);
+		
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
 		datafileName.append(".dat");
