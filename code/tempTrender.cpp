@@ -60,19 +60,8 @@ void yearmean(){
 		}
 	}
 	else {cout << "very well. " <<endl;
-	
-	
-	
-	
-	
-	
-	
-	
+	}
 }
-
-	
-}
-
 
 void temperatureOnDay(){
 	string cityFile = "usefulDataVisby.dat" ;
@@ -101,6 +90,12 @@ void GYcomparison(){
 	tempTrender Variance(cityFile);
 	Variance.GY_comparison(cityFile);
 }
+
+void compareData(){
+	tempTrender visbyTempData = tempTrender("usefulDataVisby.dat");
+	visbyTempData.compareData();
+}
+
 
 
 
