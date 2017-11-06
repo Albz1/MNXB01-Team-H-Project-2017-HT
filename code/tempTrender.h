@@ -74,21 +74,17 @@ class tempTrender {
 			
 			//separates temp
 			stringstream tempstream(temprest);
-			getline(tempstream, temp, ';');		
-
-			tempstream >> GY;				
+			getline(tempstream, temp, ';');	
+			tempstream >> guyrest;	
 			
 			//separates G/Y value
 			stringstream guystream(guyrest);
-			getline(guystream, GY, ';');		
+			getline(guystream, GY, ';');	
 			guystream >> restrest;
 			
 			
 			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;
-			
-
-			tempstream >> guyrest;				
+			usefulData << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << temp << ' ' << GY << endl;			
 			
 			
 			
@@ -305,6 +301,10 @@ class tempTrender {
 	cout << "Standard Deviation " << sqrt(StandardDiv/nEntries) << endl;
 }
 	//I don't think we're using these...
+	
+	void compareData() { //Should compare results for the other functions between the lund and visby data sets
+		
+	}
 	private:
 	unsigned short day;
 	unsigned short month; 
