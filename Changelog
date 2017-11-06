@@ -29,3 +29,6 @@ Added a way to measure the temperature of one day through every year measured.
 
 1.01.05.02, 02/11/2017
 Added plot for tempOnDay and made the canvas appear immediately.
+
+1.01.06.01, 06/11/2017
+Added code for a GY-comparison function and the standard deviation of temperature during a month.
