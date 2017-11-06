@@ -102,12 +102,5 @@ void GYcomparison(){
 	Variance.GY_comparison(cityFile);
 }
 
-void SDmonth(){
-	string cityFile = "usefulDataVisby.dat" ;
-	
-	tempTrender SD(cityFile);
-	SD.SDofamonth(cityFile);
-}
-	
 
 

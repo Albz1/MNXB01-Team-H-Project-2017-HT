@@ -30,6 +30,10 @@ class tempTrender {
 	
 
 	void readFile(string filePath, string cityName) { 
+		
+		vector<float> temperatures;
+		
+		
 		ifstream file(filePath.c_str());
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
@@ -86,15 +90,29 @@ class tempTrender {
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
 			
 			
+			
 			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << tempno << ' ' << GY << endl; //outputs the result into the console / copies the result into the usefulData file.
+		
 			
 			if (dayold != "0"){
 				
 				if (dayold != dd){
+					int size = temperatures.size();
+					double StandardDiv =0.;
+					for (int i = 0; i<size; i++){
+						StandardDiv += (temperatures.at(i) - temptot/n) * (temperatures.at(i) - temptot/n);
+					}
+					double standarddev = sqrt(StandardDiv/n);
 					
-					usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << endl;
+					usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << ' ' << standarddev << endl;
+					
 					temptot=0;
 					n=0;
+					standarddev = 0;
+					while (!temperatures.empty()){
+						temperatures.pop_back();
+					}
+					
 				}
 			}
 			
@@ -105,6 +123,7 @@ class tempTrender {
 			GYold = GY;
 			timeold = time;
 			temptot += tempno;
+			temperatures.push_back (tempno);
 		}
 		cout << "done" <<endl;
 		file.close();
@@ -120,24 +139,29 @@ class tempTrender {
 		ifstream usefulData(datafileName.c_str());
 		
 		vector<float> temperatures;
+		vector<float> stdevs;
 		
 		
-		string year, month, day, temp, line, status;
+		string year, month, day, temp, line, status, stdev;
 		
 		while (getline(usefulData, line)){
 			
-			usefulData >> year >> month >> day >> temp >> status;
+			usefulData >> year >> month >> day >> temp >> status >> stdev;
 
 			int yearnow = ::atoi(year.c_str()); //turns the year into an integer
 
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+			float stdevcurrent = ::atof(stdev.c_str());
+			
 
 
 			if (yearToCompute == yearnow){
 				
 				//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
 				temperatures.push_back (tempno);
-				cout << tempno<<endl;
+				stdevs.push_back (stdevcurrent);
+				
+				cout << tempno <<endl;
 			}
 			
 		}
@@ -246,55 +270,6 @@ class tempTrender {
 		
 	}
 	
-	void SDofamonth(string cityFile = "NaN") { //should have a for loop in order to itterate over each value of a single day. and do the standard deviation. Here I only do it over a month
-		//What the code should do: pick a year. Have the standard deviation I created do the calculation over a whole day. Then go to the next day and do the same again
-		cout << "Using file: " << cityFile << endl;
-		vector<double> temperature;
-		double year;
-//		double month;
-		cout << "Choose a month." << endl;
-		cin >> month;
-		cout << "Choose a year to start from. " << endl;
-		cin >> year;
-		
-		ifstream file(cityFile.c_str());
-		
-		double fYear;
-		string dummyTime;
-		int test = 0;
-		int dummyday; // day from the file
-		int fmonth; // month from the file
-		float temp; // temperature value
-		string line;
-		
-		double SumTemp = 0;
-		while (getline(file, line)) {
-			file >> fYear >> fmonth >> dummyday >> temp;
-			
-			if (fmonth = month && fYear == year){
-				temperature.push_back(temp);
-				SumTemp += temp;
-				cout << fYear << "-" << fmonth << "-" << dummyday << " " << temperature.at(test) << endl;
-				test++;	
-		}
-		
-	}
-	double ST = accumulate(temperature.begin(), temperature.end(), 0);
-	cout << "Sum of temperatures using a for loop " << SumTemp << endl;
-	cout << "Sum of temperatures summing elements of a vector " << ST << endl;
-	
-	cout << "nEntries " << temperature.size() << endl;
-	double nEntries = temperature.size();
-	double MeanM = SumTemp / nEntries;
-	cout << "Mean " << MeanM << endl;
-	
-	double StandardDiv =0.;
-	for (int i = 0; i<nEntries; i++){
-		StandardDiv += (temperature.at(i) - MeanM) * (temperature.at(i) - MeanM);
-		
-	}
-	cout << "Standard Deviation " << sqrt(StandardDiv/nEntries) << endl;
-}
 	//I don't think we're using these...
 	private:
 	unsigned short day;
