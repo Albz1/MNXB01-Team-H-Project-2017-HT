@@ -60,19 +60,12 @@ void yearmean(){
 		}
 	}
 	else {cout << "very well. " <<endl;
-	
-	
-	
-	
-	
-	
-	
-	
+	}
 }
-
-	
+void compareData(){
+	tempTrender visbyTempData = tempTrender("usefulDataVisby.dat");
+	visbyTempData.compareData();
 }
-
 
 void temperatureOnDay(){
 	string cityFile = "usefulDataVisby.dat" ;
