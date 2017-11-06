@@ -91,19 +91,19 @@ class tempTrender {
 			cout << yyyy << ' ' << mm << ' ' << dd << ' ' << time << ' ' << tempno << ' ' << GY << endl; //outputs the result into the console / copies the result into the usefulData file.
 		
 			
-			if (dayold != "0"){
+			if (dayold != "0"){ // this makes sure that the average temperature and standard deviation of each day is saved in the "useful data" file
 				
 				if (dayold != dd){
 					int size = temperatures.size();
 					double StandardDiv =0.;
 					for (int i = 0; i<size; i++){
-						StandardDiv += (temperatures.at(i) - temptot/n) * (temperatures.at(i) - temptot/n);
+						StandardDiv += (temperatures.at(i) - temptot/n) * (temperatures.at(i) - temptot/n);// here, standard deviation is calculated
 					}
 					double standarddev = sqrt(StandardDiv/n);
 					
 					usefulData << yearold << ' ' << monthold << ' ' << dayold << ' ' << temptot/n << ' ' << GYold << ' ' << standarddev << endl;
 					
-					temptot=0;
+					temptot=0; // here, all sums, counters, and vectors are reset, so that they do not interfere with other data
 					n=0;
 					standarddev = 0;
 					while (!temperatures.empty()){
@@ -113,7 +113,7 @@ class tempTrender {
 				}
 			}
 			
-			n++;
+			n++; // here we have counters, vectors and sums all being added, this is all necessary for the above loop which records the average temperature each day
 			dayold = dd;
 			monthold = mm;
 			yearold = yyyy;
@@ -147,21 +147,21 @@ class tempTrender {
 			int yearnow = ::atoi(year.c_str()); //turns the year into an integer
 
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
-			float stdevcurrent = ::atof(stdev.c_str());
+			float stdevcurrent = ::atof(stdev.c_str());//turns the standard deviation into a float
 			
 
 
 			if (yearToCompute == yearnow){
 				
 				//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
-				temperatures.push_back (tempno);
-				stdevs.push_back (stdevcurrent);
+				temperatures.push_back (tempno);//the temperature of each day during the selected year is stored in a vector here
+				stdevs.push_back (stdevcurrent);//the standard deviation of the temperature each day during the selected year is stored here
 				
 				cout << tempno <<endl;
 			}
 			
 		}
-		int n = temperatures.size();
+		int n = temperatures.size(); // here, the temperature of each day is plotted against the day of the year
 		TCanvas *c1 = new TCanvas("c1","Temperature of given year for each day",200,10,700,500);
 		Float_t x[n], y[n];
 		for (Int_t i=0;i<n;i++) {
@@ -179,7 +179,7 @@ class tempTrender {
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
 
 
-	void tempOnDay(string cityFile = "NaN") {
+	void tempOnDay(string cityFile = "NaN") { 
 		cout << "Using file: " << cityFile << endl;
 		
 		vector<double> temperature;
