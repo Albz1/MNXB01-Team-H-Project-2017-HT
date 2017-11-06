@@ -224,7 +224,6 @@ class tempTrender {
 		gr->Draw("AL");
 		c1->Modified();
 		c1->Update();
-		
 		file.close();
 	}
 	
@@ -269,7 +268,70 @@ class tempTrender {
 		cout << "While the coldest temperature was " << *min_element(temperatureY.begin(), temperatureY.end()) << " Degrees" << endl;
 		
 	}
-	
+	void compareData() { //Should compare results for the other functions between the lund and visby data sets
+		cout << "Pick a function [yearmean], [tempOnDay], [GYcomp], [SDofmonth]"<<endl; //I will default this to temperature during a year.
+		string usrChoice = "yearmean";
+		
+		if (usrChoice == "yearmean") {
+			cout << "Data exists from both sets starting 1961. Which year do you want to compare?" <<endl;
+			int yearToCompute;
+			cin >> yearToCompute;
+			//this should print a graph of the difference in temperature between lund and visby (lundT-visbyT)
+			
+			string lundFileName = "usefulDataLund.dat"; //defines datafile paths
+			string visbyFileName = "usefulDataVisby.dat";
+			ifstream UDLund(lundFileName.c_str()); //opens the data files for reading
+			ifstream UDVisby(visbyFileName.c_str());
+			
+			vector<float> lundT;
+			vector<float> visbyT;
+			vector<float> diff_T;
+			string year, month, day, temp, line, status;
+			
+			while (getline(UDLund, line)){
+				UDLund >> year >> month >> day >> temp >> status;
+				
+				int yearnow = ::atoi(year.c_str()); //turns the year into an integer
+
+				float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+
+				if (yearToCompute == yearnow){
+					lundT.push_back (tempno);
+				}	
+			}
+			while (getline(UDVisby, line)){
+				UDVisby >> year >> month >> day >> temp >> status;
+				
+				int yearnow = ::atoi(year.c_str()); //turns the year into an integer
+
+				float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+
+				if (yearToCompute == yearnow){
+					visbyT.push_back (tempno);
+				}
+			}
+			int n = lundT.size();
+			for (Int_t i = 0; i < n; i++ ) {
+				diff_T.push_back(lundT.at(i)-visbyT.at(i));
+			}
+			
+			TCanvas *c1 = new TCanvas("c1","Temperature comparison between Lund and Visby",200,10,700,500);
+			Float_t x[n], y[n];
+			for (Int_t i=0;i<n;i++) {
+				x[i] = i+1;
+				y[i] = diff_T.at(i);
+				cout << x[i] << " || " << y[i] <<endl;
+			}
+			TGraph* gr = new TGraph(n,x,y);	
+			gr->Draw("AL");
+			c1->Modified();
+			c1->Update();
+			
+			UDLund.close();
+			UDVisby.close();
+		}
+	} 
+
 	//I don't think we're using these...
 	private:
 	unsigned short day;

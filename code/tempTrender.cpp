@@ -101,6 +101,11 @@ void GYcomparison(){
 	tempTrender Variance(cityFile);
 	Variance.GY_comparison(cityFile);
 }
+void compareData(){
+	tempTrender visbyTempData = tempTrender("usefulDataVisby.dat");
+	visbyTempData.compareData();
+} 
+
 
 
 
