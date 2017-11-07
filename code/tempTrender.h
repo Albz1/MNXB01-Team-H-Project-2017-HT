@@ -15,6 +15,7 @@
 #include <TMath.h>   // math functions
 #include <TCanvas.h> // canvas object
 #include <TGraph.h> //Graph object
+#include <TGraphErrors.h> //Graph object
 #include <TApplication.h> //Helps draw graph instantly!
 
 using namespace std;
@@ -132,10 +133,11 @@ class tempTrender {
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
 		datafileName.append(".dat");
-		ifstream usefulData(datafileName.c_str());
+		ifstream usefulData(datafileName.c_str()); //we can have custom city name input! :D
 		
 		vector<float> temperatures;
 		vector<float> stdevs;
+		vector<float> tempError;
 		
 		
 		string year, month, day, temp, line, status, stdev;
@@ -145,15 +147,12 @@ class tempTrender {
 			usefulData >> year >> month >> day >> temp >> status >> stdev;
 
 			int yearnow = ::atoi(year.c_str()); //turns the year into an integer
-
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
 			float stdevcurrent = ::atof(stdev.c_str());//turns the standard deviation into a float
-			
 
 
 			if (yearToCompute == yearnow){
 				
-				//cout << year << " " << month << " " << day << " " << temp << " " << status << endl;
 				temperatures.push_back (tempno);//the temperature of each day during the selected year is stored in a vector here
 				stdevs.push_back (stdevcurrent);//the standard deviation of the temperature each day during the selected year is stored here
 				
@@ -163,13 +162,27 @@ class tempTrender {
 		}
 		int n = temperatures.size(); // here, the temperature of each day is plotted against the day of the year
 		TCanvas *c1 = new TCanvas("c1","Temperature of given year for each day",200,10,700,500);
-		Float_t x[n], y[n];
-		for (Int_t i=0;i<n;i++) {
+		Float_t x[n], y[n], ex[n], ey[n];
+		for (Int_t i=0;i<n;i++) { //fills up arrays containing the values for x,y, ex, ey which are used to graph.
 			x[i] = i+1;
 			y[i] = temperatures.at(i);
+			ex[i] = 0;
+			ey[i] = stdevs.at(i);
+			
 		}
-		TGraph* gr = new TGraph(n,x,y);	
-		gr->Draw("AL");
+		
+		TGraphErrors* gre = new TGraphErrors(n,x,y,ex,ey);//Creating the graph for error bars
+		TGraph* gr = new TGraph(n,x,y); //and the one for the line
+		gre->SetLineWidth(3); //setting line width and color
+		gre->SetLineColor(2);
+		
+		gre->GetXaxis()->SetTitle("Day of year");
+		gre->GetYaxis()->SetTitle("Temperature [^{o}C]");
+		gre->GetXaxis()->CenterTitle();
+		gre->GetYaxis()->CenterTitle();
+		
+		gre->Draw("ALZ"); //draw the error bars below the line, do not draw the ends of the error bars (Z).
+		gr->Draw("L");
 		c1->Modified();
 		c1->Update();
 
