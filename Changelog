@@ -45,3 +45,7 @@ Added a function which compares the mean temperature of a given year between the
 
 1.01.07.02, 06/11/2017
 Commented some code in the header file.
+
+1.01.08.01, 06/11/2017
+Added some error messages and a histogram for one day over the years.
+

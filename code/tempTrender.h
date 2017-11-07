@@ -16,7 +16,7 @@
 #include <TCanvas.h> // canvas object
 #include <TGraph.h> //Graph object
 #include <TGraphErrors.h> //Graph object
-#include <TApplication.h> //Helps draw graph instantly!
+#include <TLegend.h> //Graph object
 
 using namespace std;
 
@@ -192,47 +192,112 @@ class tempTrender {
 	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
 
 
-	void tempOnDay(string cityFile = "NaN") { 
-		cout << "Using file: " << cityFile << endl;
+	void tempOnDay(string cityFile = "NaN") { // shows every year temperature of a chosen year.
+		//cout << "Using file: " << cityFile << endl;
+		
+		TH1D* fTemp = new TH1D("fTemp", "Temperature distribution; x; Counts", // used for making a histogram.
+			100, -20, 40);
+
+
 		
 		vector<double> temperature;
 		vector<double> yearvec;
+		float floatImput; // using this variable in case of imput being a float.
+		
 		cout << "Choose a month." << endl;
-		cin >> month;
-		cout << "Choose a day." << endl;
+		cin >> floatImput; // using a dummy value in case the imput is not an integer.
+		month = static_cast<unsigned short>(floatImput); // This turns a float into an unsigned short.
+
+		
+		while (month < 1 || month > 12 ) { // this while loop makes sure that entered month is a valid choise, that is, it checks if chosen month is between 1 and 12.
+			cout << "Month " << month << " does not exist, please choose a month between 1 and 12." << endl;
+			cout << "Please choose another month" << endl;
+			cin >> floatImput;
+			month = static_cast<unsigned short>(floatImput);
+		}
+		
+		
+		cout << "Choose a day." << endl; // This and other two if statements check if the imput of a day is valid for chosen month. It is generally not a good idea to hard-code numbers into the code, however this was an easy solution to a problem which does not depend on any other code, so it should be fine.
 		cin >> day;
+		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+			while ( day < 1 || day > 31 ){
+				cout << "Day " << day << " is not valid for month " << month << ". Please choose a day between 1 and 31." << endl;
+				cin >> floatImput;
+				day = static_cast<unsigned short>(floatImput);
+			}
+		}
+		if (month == 4|| month == 6 || month == 9 || month == 11){
+			while ( day < 1 || day > 30 ){
+				cout << "Day " << day << " is not valid for month " << month << ". Please choose a day between 1 and 30." << endl;
+				cin >> floatImput;
+				day = static_cast<unsigned short>(floatImput);
+			}
+		}
+		if (month == 2){
+			while ( day < 1 || day > 29 ){
+				cout << "Day " << day << " is not valid for month " << month << ". Please choose a day between 1 and 29." << endl;
+				cin >> floatImput;
+				day = static_cast<unsigned short>(floatImput);
+			}
+		}
+		
 		
 		ifstream file(cityFile.c_str());
 		
-		double dummyYear;
-		string dummyTime;
-		int test = 0;
-		int fdd; // day from the file
-		int fmm; // month from the file
-		float temp; // temperature value
-		string line;
+		double dummyYear; // year is not used in actual data, however because values from the file are taken in order, it has to be assigned to something. This is also usefull for checking if the code works properly.
+		string dummyTime; // same case as for dummyYear.
+		int test = 0; // this value is used in a while loop in order to make a nice vector which adjust to the data size.
+		int fdd; // day from the file.
+		int fmm; // month from the file.
+		float temp; // temperature value from the file.
+		string line; // used for readfile.
 
 		while (getline(file, line)) {
-			file >> dummyYear >> fmm >> fdd >> temp;
+			file >> dummyYear >> fmm >> fdd >> temp; // taking values from file.
 		
 			if(fmm == month && fdd == day){
-				temperature.push_back(temp);
-				yearvec.push_back((float) dummyYear);
-				cout << dummyYear << "-" << fmm << "-" << fdd << " " << temperature.at(test) << endl;
-				test++;				
+				temperature.push_back(temp); // adding chosen value into a vector.
+				yearvec.push_back((float) dummyYear); // constructing a vector in parallel for plotting a graph.
+				cout << dummyYear << "-" << fmm << "-" << fdd << " " << temperature.at(test) << endl; // output of which data was storred into temperature vector.
+				test++;	// increasing test value by 1 for vector construction.		
 			}
 		}
-		int n = temperature.size();
-		TCanvas *c1 = new TCanvas("c1","Temperature of given day for each year",200,10,700,500);
-		Float_t x[n], y[n];
-		for (Int_t i=0;i<n;i++) {
-			x[i] = yearvec.at(i);
-			y[i] = temperature.at(i);
+		
+		TF1* dayTemp = new TF1("dayTemp", "[0]", -20, 40);
+		
+		unsigned short ntemp = temperature.size(); // using temperature.size() inside of the for loop doesnt always work propperly, so the length of the for loop was defined outside.
+		for(Int_t k = 0; k < ntemp; k++){ // a for loop to fill a histogram.
+			fTemp->Fill(temperature[k]);
 		}
-		TGraph* gr = new TGraph(n,x,y);	
-		gr->Draw("AL");
-		c1->Modified();
-		c1->Update();
+		
+		// Set ROOT drawing styles
+	    gStyle->SetOptStat(1111);
+	    gStyle->SetOptFit(1111);
+
+	    // create canvas for hPhi
+	    TCanvas* c1 = new TCanvas("c1", "dayTemp canvas", 900, 600);
+	    fTemp->SetMinimum(0);
+	    fTemp->Draw();
+	    fTemp->SetFillColor(9);
+	
+		// draw the legend
+		// TLegend *legend=new TLegend(0.6,0.65,0.88,0.85);
+	    TLegend *legend=new TLegend(0.7,0.8,0.9,0.90);
+	    legend->SetTextFont(72);
+	    legend->SetTextSize(0.03);
+ 	    legend->AddEntry(fTemp,"For date", "lday lmonth");
+ 	    legend->Draw();
+
+	    
+	    double mean = fTemp->GetMean(); //The mean of the distribution
+		double stdev = fTemp->GetRMS(); //The standard deviation	
+	    //fTemp->SetAxisRange(0, 20, "Y"); //sets the axis range
+	    fTemp->SetTitle("Temperature [C]; Temperature [#circC]; Counts" ); //sets the lable of axis
+	  
+	  
+	    // Save the canvas as a picture
+	    c1->SaveAs("Temp_rootfunc.jpg");
+	    
 		file.close();
 	}
 	

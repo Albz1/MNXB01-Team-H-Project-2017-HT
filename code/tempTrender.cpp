@@ -64,23 +64,24 @@ void yearmean(){
 }
 
 void temperatureOnDay(){
-	string cityFile = "usefulDataVisby.dat" ;
-	/*
+	string VisbyFile = "usefulDataVisby.dat" ;
+	string LundFile = "usefulDataLund.dat" ;
+	string cityFile;
 	string userInput;
+	
+	tempTrender daytemp = tempTrender(cityFile);
 
-	cout << "Would you like to check Lund (l) or Visby (v) data?" << endl;
+	cout << "Would you like to check Lund (l) or Visby (v) data? Enter any other imput in order to quit." << endl;
+	cin >> userInput;
 	if (userInput == "v") { 
-		cityFile = "usefulDataVisby.dat";
+		cityFile = VisbyFile;
+			daytemp.tempOnDay(cityFile);
 	}
 	else if (userInput == "l") {
-			cityFile = "usefulDataLund.dat";
+			cityFile = LundFile;
+			daytemp.tempOnDay(cityFile);
 	}
 	else {cout << "very well. " <<endl;}
-	*/
-	tempTrender daytemp = tempTrender(cityFile);
-	daytemp.tempOnDay(cityFile);
-	
-
 
 }
 
