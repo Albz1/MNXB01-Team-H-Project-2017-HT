@@ -17,6 +17,7 @@
 #include <TGraph.h> //Graph object
 #include <TGraphErrors.h> //Graph object
 #include <TLegend.h> //Graph object
+#include <TColor.h> //Colors for graphs!
 
 using namespace std;
 
@@ -128,8 +129,9 @@ class tempTrender {
 		usefulData.close();
 	}
 	
-	void tempPerDay(string cityName, int yearToCompute){ //Make a histogram of the average temperature of each day of the year || Still need to work on the plot window...
+	void tempPerDay(string cityName, string computeYear){ //Make a histogram of the average temperature of each day of the year || Still need to work on the plot window...
 		
+		int yearToCompute = ::atoi(computeYear.c_str());
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
 		datafileName.append(".dat");
@@ -161,7 +163,19 @@ class tempTrender {
 			
 		}
 		int n = temperatures.size(); // here, the temperature of each day is plotted against the day of the year
-		TCanvas *c1 = new TCanvas("c1","Temperature of given year for each day",200,10,700,500);
+		
+		string cTitle = "Temp per day of year ";
+		cTitle.append(computeYear.c_str());
+		cTitle.append(" in ");
+		cTitle.append(cityName.c_str());
+		
+		string saveAsName = "../Results/TempPerDay/temp";
+		saveAsName.append(cityName.c_str());
+		saveAsName.append(computeYear.c_str());
+		saveAsName.append(".png");
+		
+		
+		TCanvas *c1 = new TCanvas("c1",cTitle.c_str(),200,10,700,500);
 		Float_t x[n], y[n], ex[n], ey[n];
 		for (Int_t i=0;i<n;i++) { //fills up arrays containing the values for x,y, ex, ey which are used to graph.
 			x[i] = i+1;
@@ -173,24 +187,30 @@ class tempTrender {
 		
 		TGraphErrors* gre = new TGraphErrors(n,x,y,ex,ey);//Creating the graph for error bars
 		TGraph* gr = new TGraph(n,x,y); //and the one for the line
-		gre->SetLineWidth(3); //setting line width and color
-		gre->SetLineColor(2);
+		gre->SetLineWidth(4); //setting line width and color
+		gre->SetLineColor(kCyan);
+		gr->SetLineWidth(2);
+		gr->SetLineColor(kBlack);
 		
 		gre->GetXaxis()->SetTitle("Day of year");
 		gre->GetYaxis()->SetTitle("Temperature [^{o}C]");
 		gre->GetXaxis()->CenterTitle();
 		gre->GetYaxis()->CenterTitle();
-		
 		gre->Draw("ALZ"); //draw the error bars below the line, do not draw the ends of the error bars (Z).
 		gr->Draw("L");
-		c1->Modified();
-		c1->Update();
+		
+		TLegend *legend=new TLegend(0.67,0.8,0.94,0.9);
+	    legend->SetTextFont(72);
+	    legend->SetTextSize(0.03);
+ 	    legend->AddEntry(gre,"Measurement Error", "l");
+ 	    legend->AddEntry(gr,"Measurement", "l");
+ 	    legend->Draw();
 
+		c1->Update();
+		
+		c1->SaveAs(saveAsName.c_str());
 		usefulData.close();
 	}
-	//void hotCold(); //Make a histogram of the hottest and coldest day of the year
-	//void tempPerYear(int yearToExtrapolate); //Make a histogram of average temperature per year, then fit and extrapolate to the given year
-
 
 	void tempOnDay(string cityFile = "NaN") { // shows every year temperature of a chosen year.
 		//cout << "Using file: " << cityFile << endl;
@@ -342,6 +362,7 @@ class tempTrender {
 		cout << "While the coldest temperature was " << *min_element(temperatureY.begin(), temperatureY.end()) << " Degrees" << endl;
 		
 	}
+	
 	void compareData() { //Should compare results for the other functions between the lund and visby data sets
 		cout << "Pick a function [yearmean], [tempOnDay], [GYcomp], [SDofmonth]"<<endl; //I will default this to temperature during a year.
 		string usrChoice = "yearmean";
