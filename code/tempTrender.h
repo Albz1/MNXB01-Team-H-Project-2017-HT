@@ -130,7 +130,7 @@ class tempTrender {
 		usefulData.close();
 	}
 	
-	void tempPerDay(string cityName, string computeYear){ //Make a histogram of the average temperature of each day of the year || Still need to work on the plot window...
+	void tempPerDay(string cityName, string computeYear){ //FUNCTION COMPLETE.
 		
 		int yearToCompute = ::atoi(computeYear.c_str());
 		string datafileName = "usefulData";
@@ -213,8 +213,7 @@ class tempTrender {
 		usefulData.close();
 	}
 
-
-	void tempOnDay(string cityFile = "NaN") { // shows every year temperature of a chosen year.
+	void tempOnDay(string cityFile = "NaN", string cityName = "NaN") { // shows every year temperature of a chosen year.
 		//cout << "Using file: " << cityFile << endl;
 		
 		 TH1D* fTemp = new TH1D("fTemp", "Temperature distribution x; Counts", // used for making a histogram.
@@ -376,7 +375,9 @@ class tempTrender {
 		legendDateTest << "Temperature on " << day << "/" << month;
 		string legendDate = legendDateTest.str();
 	
-	
+		stringstream saveAsStream;
+		saveAsStream << "../Results/TempOnDay/temp"<< day << "-" << month << cityName<< ".png";
+		string saveAsName = saveAsStream.str();
 		// draw the legend
 	    TLegend *legend=new TLegend(0.9,0.8,0.65,0.90);
 	    legend->SetTextFont(2);
@@ -387,7 +388,7 @@ class tempTrender {
 	  
 	  
 	    // Save the canvas as a picture
-	    c1->SaveAs("../Results/TempOnDay/TEST.png");
+	    c1->SaveAs(saveAsName.c_str());
 	    
 		file.close();
 	}
