@@ -6,7 +6,6 @@ using namespace std;
 
 tempTrender::tempTrender(string filePath) {
 	cout << "The user supplied " << filePath << " as the path to the data file." << endl;
-	cout << "You should probably store this information in a member variable of the class. Good luck with the project! :)" << endl;
 }
 
 void fileread() {
@@ -48,7 +47,7 @@ void yearmean(){
 		string cityInput;
 		cin >> cityInput;
 		cout << "Which year would you like to investigate?" << endl;
-		int yearchecked;
+		string yearchecked;
 		cin >> yearchecked;
 		if (cityInput == "l") {
 			lundTempData.tempPerDay("Lund", yearchecked);
