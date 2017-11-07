@@ -7,6 +7,7 @@
 #include <cmath>
 #include <vector>
 #include <numeric> //added this. Marcus
+#include <limits>
 
 //Root libraries
 #include <TF1.h> // 1d function class
@@ -183,51 +184,114 @@ class tempTrender {
 	void tempOnDay(string cityFile = "NaN") { // shows every year temperature of a chosen year.
 		//cout << "Using file: " << cityFile << endl;
 		
-		TH1D* fTemp = new TH1D("fTemp", "Temperature distribution; x; Counts", // used for making a histogram.
-			100, -20, 40);
+		 TH1D* fTemp = new TH1D("fTemp", "Temperature distribution x; Counts", // used for making a histogram.
+			150, -20, 40);
 
 
 		
 		vector<double> temperature;
 		vector<double> yearvec;
-		float floatImput; // using this variable in case of imput being a float.
+		float floatInput; // using this variable in case of imput being a float.
 		
 		cout << "Choose a month." << endl;
-		cin >> floatImput; // using a dummy value in case the imput is not an integer.
-		month = static_cast<unsigned short>(floatImput); // This turns a float into an unsigned short.
+		cin >> floatInput; // using a dummy value in case the imput is not an integer.
+		
+		while(!floatInput){ // This was done by marcus
+			cout << "This is not a valid input!" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			
+			cin >> floatInput;
+		}
+		
+		month = static_cast<unsigned short>(floatInput); // This turns a float into an unsigned short.
+		
 
 		
 		while (month < 1 || month > 12 ) { // this while loop makes sure that entered month is a valid choise, that is, it checks if chosen month is between 1 and 12.
 			cout << "Month " << month << " does not exist, please choose a month between 1 and 12." << endl;
 			cout << "Please choose another month" << endl;
-			cin >> floatImput;
-			month = static_cast<unsigned short>(floatImput);
+			cin >> floatInput;
+			
+			while(!floatInput){ // makes sure that the imput is not someting like a string.
+				cout << "This is not a valid input! Please choose a month between 1 and 12." << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				
+				cin >> floatInput;
+		}
+			
+			month = static_cast<unsigned short>(floatInput);
 		}
 		
 		
 		cout << "Choose a day." << endl; // This and other two if statements check if the imput of a day is valid for chosen month. It is generally not a good idea to hard-code numbers into the code, however this was an easy solution to a problem which does not depend on any other code, so it should be fine.
-		cin >> day;
+		float dayInput;
+		cin >> dayInput;
+		
+		while(!dayInput){ // makes sure that the imput is not someting like a string.
+					cout << "This is not a valid input! Day should be an integer." << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cin >> dayInput;
+		}
+		day = static_cast<unsigned short>(dayInput);
+		
+		// next 3 statements make sure that entered date exists in a data file
 		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
 			while ( day < 1 || day > 31 ){
 				cout << "Day " << day << " is not valid for month " << month << ". Please choose a day between 1 and 31." << endl;
-				cin >> floatImput;
-				day = static_cast<unsigned short>(floatImput);
+				cin >> floatInput;
+				
+				while(!floatInput){ // makes sure that the imput is not someting like a string.
+					cout << "This is not a valid input! Please choose a day between 1 and 31." << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					
+					cin >> floatInput;
+		}
+				
+				
+				day = static_cast<unsigned short>(floatInput);
 			}
 		}
 		if (month == 4|| month == 6 || month == 9 || month == 11){
 			while ( day < 1 || day > 30 ){
 				cout << "Day " << day << " is not valid for month " << month << ". Please choose a day between 1 and 30." << endl;
-				cin >> floatImput;
-				day = static_cast<unsigned short>(floatImput);
+				cin >> floatInput;
+				
+				while(!floatInput){ // makes sure that the imput is not someting like a string.
+					cout << "This is not a valid input! Please choose a day between 1 and 30." << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					
+					cin >> floatInput;
+		}
+				
+				day = static_cast<unsigned short>(floatInput);
 			}
 		}
 		if (month == 2){
 			while ( day < 1 || day > 29 ){
 				cout << "Day " << day << " is not valid for month " << month << ". Please choose a day between 1 and 29." << endl;
-				cin >> floatImput;
-				day = static_cast<unsigned short>(floatImput);
+				cin >> floatInput;
+				
+				while(!floatInput){ // makes sure that the imput is not someting like a string.
+					cout << "This is not a valid input! Please choose a day between 1 and 29." << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					
+					cin >> floatInput;
+		}
+				
+				day = static_cast<unsigned short>(floatInput);
 			}
 		}
+		
+		
+		
+		// Untill this part the code makes sure that the user imput is valid.
+		
 		
 		
 		ifstream file(cityFile.c_str());
@@ -251,7 +315,7 @@ class tempTrender {
 			}
 		}
 		
-		TF1* dayTemp = new TF1("dayTemp", "[0]", -20, 40);
+		TF1* dayTemp = new TF1("fTemp", "[0]", -20, 40);
 		
 		unsigned short ntemp = temperature.size(); // using temperature.size() inside of the for loop doesnt always work propperly, so the length of the for loop was defined outside.
 		for(Int_t k = 0; k < ntemp; k++){ // a for loop to fill a histogram.
@@ -263,24 +327,32 @@ class tempTrender {
 	    gStyle->SetOptFit(1111);
 
 	    // create canvas for hPhi
-	    TCanvas* c1 = new TCanvas("c1", "dayTemp canvas", 900, 600);
+	    TCanvas* c1 = new TCanvas("c1", "fTemp canvas", 900, 600);
 	    fTemp->SetMinimum(0);
 	    fTemp->Draw();
-	    fTemp->SetFillColor(9);
+	    fTemp->SetFillColor(2);
 	
-		// draw the legend
-		// TLegend *legend=new TLegend(0.6,0.65,0.88,0.85);
-	    TLegend *legend=new TLegend(0.7,0.8,0.9,0.90);
-	    legend->SetTextFont(72);
-	    legend->SetTextSize(0.03);
- 	    legend->AddEntry(fTemp,"For date", "lday lmonth");
- 	    legend->Draw();
-
-	    
-	    double mean = fTemp->GetMean(); //The mean of the distribution
+	/*
+		double mean = fTemp->GetMean(); //The mean of the distribution
 		double stdev = fTemp->GetRMS(); //The standard deviation	
 	    //fTemp->SetAxisRange(0, 20, "Y"); //sets the axis range
+	 	*/
+	 	
 	    fTemp->SetTitle("Temperature [C]; Temperature [#circC]; Counts" ); //sets the lable of axis
+
+	
+		stringstream legendDateTest;
+		legendDateTest << "Temperature on " << day << "/" << month;
+		string legendDate = legendDateTest.str();
+	
+	
+		// draw the legend
+	    TLegend *legend=new TLegend(0.9,0.8,0.65,0.90);
+	    legend->SetTextFont(2);
+	    legend->SetTextSize(0.03);
+ 	    legend->AddEntry(fTemp, legendDate.c_str(), "f");
+ 	    legend->Draw();
+
 	  
 	  
 	    // Save the canvas as a picture
@@ -288,6 +360,10 @@ class tempTrender {
 	    
 		file.close();
 	}
+	
+	
+	
+	
 	
 	void GY_comparison(string cityFile = "NaN") { //was not able to do the Y/G comparison since we don't include them in the "usefulData" file
 		cout << "Using file: " << cityFile << endl;
