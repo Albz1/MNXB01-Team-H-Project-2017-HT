@@ -289,7 +289,7 @@ class tempTrender {
 		for(Int_t k = 0; k < ntemp; k++){ // a for loop to fill a histogram.
 			fTemp->Fill(temperature[k]);
 		}
-		
+		string saveAs()
 		// Set ROOT drawing styles
 	    gStyle->SetOptStat(1111);
 	    gStyle->SetOptFit(1111);
@@ -316,7 +316,7 @@ class tempTrender {
 	  
 	  
 	    // Save the canvas as a picture
-	    c1->SaveAs("Temp_rootfunc.jpg");
+	    c1->SaveAs("../Results/TempOnDay/TEST");
 	    
 		file.close();
 	}
