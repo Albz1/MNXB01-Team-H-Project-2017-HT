@@ -18,7 +18,7 @@
 #include <TGraphErrors.h> //Graph object
 #include <TLegend.h> //Graph object
 #include <TColor.h> //Colors for graphs!
-
+#include <TApplication.h>
 using namespace std;
 
 
@@ -212,13 +212,12 @@ class tempTrender {
 		usefulData.close();
 	}
 
+
 	void tempOnDay(string cityFile = "NaN") { // shows every year temperature of a chosen year.
 		//cout << "Using file: " << cityFile << endl;
 		
 		TH1D* fTemp = new TH1D("fTemp", "Temperature distribution; x; Counts", // used for making a histogram.
 			100, -20, 40);
-
-
 		
 		vector<double> temperature;
 		vector<double> yearvec;
@@ -289,7 +288,7 @@ class tempTrender {
 		for(Int_t k = 0; k < ntemp; k++){ // a for loop to fill a histogram.
 			fTemp->Fill(temperature[k]);
 		}
-		string saveAs()
+		string saveAs();
 		// Set ROOT drawing styles
 	    gStyle->SetOptStat(1111);
 	    gStyle->SetOptFit(1111);
@@ -305,7 +304,7 @@ class tempTrender {
 	    TLegend *legend=new TLegend(0.7,0.8,0.9,0.90);
 	    legend->SetTextFont(72);
 	    legend->SetTextSize(0.03);
- 	    legend->AddEntry(fTemp,"For date", "lday lmonth");
+ 	    legend->AddEntry(fTemp,"For date", "l");
  	    legend->Draw();
 
 	    
@@ -316,7 +315,7 @@ class tempTrender {
 	  
 	  
 	    // Save the canvas as a picture
-	    c1->SaveAs("../Results/TempOnDay/TEST");
+	    c1->SaveAs("../Results/TempOnDay/TEST.png");
 	    
 		file.close();
 	}
