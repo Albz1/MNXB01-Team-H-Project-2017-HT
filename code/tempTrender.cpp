@@ -72,6 +72,7 @@ void temperatureOnDay(){
 
 	cout << "Would you like to check Lund (l) or Visby (v) data? Enter any other imput in order to quit." << endl;
 	cin >> userInput;
+	
 	if (userInput == "v") { 
 		cityFile = VisbyFile;
 			daytemp.tempOnDay(cityFile);
