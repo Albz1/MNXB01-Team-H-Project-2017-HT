@@ -53,7 +53,6 @@ void yearmean(){
 		}
 	
 	else {cout << "Invalid city." <<endl;
-		goto checkafile;
 	}
 }
 
