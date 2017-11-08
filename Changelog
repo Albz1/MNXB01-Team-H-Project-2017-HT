@@ -67,3 +67,5 @@ Updated the compare function so that it is up to standard with the yearmean func
 1.01.08.07, 08/11/2017
 Fixed a bug with yearmean that made it impossible to stop giving city names.
 
+1.02.01.01, 08/11/2017
+Commented and finalized the code, specifically in the temponday function.
