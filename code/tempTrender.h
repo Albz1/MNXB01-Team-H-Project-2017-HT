@@ -32,7 +32,7 @@ class tempTrender {
 	//void tempOnDay(int dateToCalculate); //Make a histogram of the temperature on this date
 	
 
-	void readFile(string filePath, string cityName) { 
+	void readFile(string filePath, string cityName) { //function that reads the datafile and outputs a easy-to-read output file which is used for the remaining files
 		
 		vector<float> temperatures;
 		
@@ -130,24 +130,24 @@ class tempTrender {
 		usefulData.close();
 	}
 	
-	void tempPerDay(string cityName, string computeYear){ //FUNCTION COMPLETE.
+	void tempPerDay(string cityName, string computeYear){ //this functions reads the temperature of every single day in a year and prints a graph of the data
 		
 		int yearToCompute = ::atoi(computeYear.c_str());
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
 		datafileName.append(".dat");
-		ifstream usefulData(datafileName.c_str()); //we can have custom city name input! :D
+		ifstream usefulData(datafileName.c_str()); //depending on what city is input, the program checks the appropriate data file
 		
-		vector<float> temperatures;
+		vector<float> temperatures; // here we declare vectors and variables that will be useful for the plot.
 		vector<float> stdevs;
 		vector<float> tempError;
 		
 		
-		string year, month, day, temp, line, status, stdev, n;
+		string year, month, day, temp, line, status, stdev, n; 
 		
 		while (getline(usefulData, line)){
 			
-			usefulData >> year >> month >> day >> temp >> status >> stdev >> n;
+			usefulData >> year >> month >> day >> temp >> status >> stdev >> n; // here all variables are assigned
 
 			int yearnow = ::atoi(year.c_str()); //turns the year into an integer
 			float tempno = ::atof(temp.c_str()); //turns the temperature into a float
@@ -165,7 +165,7 @@ class tempTrender {
 		}
 		int nt = temperatures.size(); // here, the temperature of each day is plotted against the day of the year
 		
-		string cTitle = "Temp per day of year ";
+		string cTitle = "Temp per day of year "; //here the title of the graph is made
 		cTitle.append(computeYear.c_str());
 		cTitle.append(" in ");
 		cTitle.append(cityName.c_str());
@@ -213,7 +213,9 @@ class tempTrender {
 		usefulData.close();
 	}
 
-	void tempOnDay(string cityFile = "NaN", string cityName = "NaN") { // shows every year temperature of a chosen year.
+
+	void tempOnDay(string cityFile = "NaN", string cityName = "NaN") { // this function reads the temperature of a single day during all years measured and outputs the temperatures in the histogram
+
 		
 		TH1D* dayTemp = new TH1D("Values", "Temperature distribution x; Counts", // used for making a histogram.
 			150, -20, 40);
@@ -333,7 +335,7 @@ class tempTrender {
 		float temp; // temperature value from the file.
 		string line; // used for readfile.
 
-		while (getline(file, line)) {
+		while (getline(file, line)) { // Processing data
 			file >> dummyYear >> fmm >> fdd >> temp; // taking values from file.
 		
 			if(fmm == month && fdd == day){
@@ -354,12 +356,13 @@ class tempTrender {
 	    gStyle->SetOptStat(1111);
 	    gStyle->SetOptFit(1111);
 
-	    // create canvas for hPhi
+	    // create canvas for temperature values
 	    TCanvas* c1 = new TCanvas("c1", "dayTemp canvas", 900, 600);
+	    dayTemp->Draw();    
 	    dayTemp->SetMinimum(0);
 	    dayTemp->SetFillColor(2);
-	    dayTemp->Draw();
-	    
+
+
 	
 
 		double mean = dayTemp->GetMean(); //The mean of the distribution
@@ -367,7 +370,6 @@ class tempTrender {
 	    //dayTemp->SetAxisRange(0, 20, "Y"); //sets the axis range
 	 	
 	    dayTemp->SetTitle("Temperature [C]; Temperature [#circC]; Counts" ); //sets the lable of axis
-		
 	
 		stringstream legendDateTest; // constructs a string for the legend.
 		legendDateTest << "Temperature on " << day << "/" << month;
@@ -379,166 +381,117 @@ class tempTrender {
 		
 		// draw the legend
 		
-	    TLegend *legend=new TLegend(0.9,0.8,0.65,0.90);
+	    TLegend *legend=new TLegend(0.5,0.8,0.2,0.90);
 	    legend->SetTextFont(2);
 	    legend->SetTextSize(0.03);
  	    legend->AddEntry(dayTemp, legendDate.c_str(), "f");
- 	    legend->Draw();
-		
+ 	    legend->Draw();  
+
 	  
 	    // Save the canvas as a picture
 	    c1->SaveAs(saveAsName.c_str());
 	    
 		file.close();
-	}
-	
-	
-	
-	
-	
-	void GY_comparison(string cityFile = "NaN") { //was not able to do the Y/G comparison since we don't include them in the "usefulData" file
-		cout << "Using file: " << cityFile << endl;
-		vector<double> temperatureY;
-		vector<double> temperatureG;
-		double year;
-		cout << "Choose a year." << endl;
-		cin >> year;
-		
-		ifstream file(cityFile.c_str());
-		
-		double fYear;
-		string dummyTime;
-		int test = 0;
-		int dummyday; // day from the file
-		int dummymonth; // month from the file
-		float temp; // temperature value
-		string GY;
-		string line;
-		
-		while (getline(file, line)) {
-			file >> fYear >> dummymonth >> dummyday >> temp;
-		
-			if(fYear == year){ //&& GY == 'Y' dummymonth == 12
-				temperatureY.push_back(temp);
-//				dayvec.push_back((float) dummyday);
-				cout << fYear << "-" << dummymonth << "-" << dummyday << " " << temperatureY.at(test) << endl;
-				test++;				
-			}
-			
-/*			else if (fYear == year && dummymonth == 03){
-				temperatureG.push_back(temp);
-//				dayvec.push_back((float) dummyday);
-				cout << fYear << "-" << dummymonth << "-" << dummyday << " " << temperatureG.at(test) << endl;
-				test++;	
-			}*/
-			
-		}
-		cout << "\n" << "The warmest measured temperature was " << *max_element(temperatureY.begin(), temperatureY.end()) << " Degrees" << endl;
-		cout << "While the coldest temperature was " << *min_element(temperatureY.begin(), temperatureY.end()) << " Degrees" << endl;
 		
 	}
 	
-	void compareData() { //Should compare results for the other functions between the lund and visby data sets
-		cout << "Pick a function [yearmean], [tempOnDay], [GYcomp], [SDofmonth]"<<endl; //I will default this to temperature during a year.
-		string usrChoice = "yearmean";
+	void compareData() { //this function compares results for the other functions between the lund and visby data sets
 		
-		if (usrChoice == "yearmean") {
-			cout << "Data exists from both sets starting 1961. Which year do you want to compare?" <<endl;
-			int yearToCompute;
-			cin >> yearToCompute;
-			//this should print a graph of the difference in temperature between lund and visby (lundT-visbyT)
+		cout << "Data exists from both sets starting 1961. Which year do you want to compare?" <<endl;
+		int yearToCompute;
+		cin >> yearToCompute;
+		//this should print a graph of the difference in temperature between lund and visby (lundT-visbyT)
+		
+		string lundFileName = "usefulDataLund.dat"; //defines datafile paths
+		string visbyFileName = "usefulDataVisby.dat";
+		ifstream UDLund(lundFileName.c_str()); //opens the data files for reading
+		ifstream UDVisby(visbyFileName.c_str());
+		
+		vector<float> lundT; // initializes all the variables and vectors containing relevant data for the plot
+		vector<float> visbyT;
+		vector<float> diff_T;
+		vector<float> stddevs;
+		vector<float> stdLund;
+		vector<float> stdVisby;
+		vector<float> countL;
+		vector<float> countV;
+		string year, month, day, temp, line, status, stdivs, n;
+		
+		while (getline(UDLund, line)){
+			UDLund >> year >> month >> day >> temp >> status >> stdivs >> n;
 			
-			string lundFileName = "usefulDataLund.dat"; //defines datafile paths
-			string visbyFileName = "usefulDataVisby.dat";
-			ifstream UDLund(lundFileName.c_str()); //opens the data files for reading
-			ifstream UDVisby(visbyFileName.c_str());
-			
-			vector<float> lundT;
-			vector<float> visbyT;
-			vector<float> diff_T;
-			vector<float> stddevs;
-			vector<float> stdLund;
-			vector<float> stdVisby;
-			vector<float> countL;
-			vector<float> countV;
-			string year, month, day, temp, line, status, stdivs, n;
-			
-			while (getline(UDLund, line)){
-				UDLund >> year >> month >> day >> temp >> status >> stdivs >> n;
-				
-				int yearnow = ::atoi(year.c_str()); //turns the year into an integer
-				float stddevs = ::atof(stdivs.c_str());
-				float ncount = ::atof(n.c_str());
-				float tempno = ::atof(temp.c_str()); //turns the temperature into a float
+			int yearnow = ::atoi(year.c_str()); //turns the relevant quantities into integers and floats
+			float stddevs = ::atof(stdivs.c_str());
+			float ncount = ::atof(n.c_str());
+			float tempno = ::atof(temp.c_str()); 
 
-				if (yearToCompute == yearnow){
-					lundT.push_back (tempno);
-					stdLund.push_back(stddevs);
-					countL.push_back(ncount);
-				}	
-			}
-			while (getline(UDVisby, line)){
-				UDVisby >> year >> month >> day >> temp >> status >> stdivs >> n;
-				
-				int yearnow = ::atoi(year.c_str()); //turns the year into an integer
-				float stddevs = ::atof(stdivs.c_str());
-				float ncount = ::atof(n.c_str());
-				float tempno = ::atof(temp.c_str()); //turns the temperature into a float
-
-				if (yearToCompute == yearnow){
-					visbyT.push_back (tempno);
-					stdVisby.push_back(stddevs);
-					countV.push_back(ncount);
-				}
-			}
-			int nt = lundT.size();
-			for (Int_t i = 0; i < nt; i++ ) {
-				diff_T.push_back(lundT.at(i)-visbyT.at(i));
-				stddevs.push_back( sqrt( stdLund.at(i)*stdLund.at(i)/countL.at(i)  + stdVisby.at(i)*stdVisby.at(i)/countV.at(i) ) );
-			}
-			
-			TCanvas *c1 = new TCanvas("c1","Temperature comparison between Lund and Visby",200,10,700,500);
-			Float_t x[nt], y[nt], ex[nt], ey[nt];
-			for (Int_t i=0;i<nt;i++) {
-				x[i] = i+1;
-				y[i] = diff_T.at(i);
-				ex[i] = 0;
-				ey[i] = stddevs.at(i);
-				cout << x[i] << " || " << y[i] <<endl;
-			}
-			TGraph* gr = new TGraph(nt,x,y);	
-			TGraphErrors* gre = new TGraphErrors(nt,x,y,ex,ey);
-			gre->SetLineWidth(4); //setting line width and color
-			gre->SetLineColor(kCyan);
-			gr->SetLineWidth(2);
-			gr->SetLineColor(kBlack);
-			
-			gre->GetXaxis()->SetTitle("Day of year");
-			gre->GetYaxis()->SetTitle("Temperature [^{o}C]");
-			gre->GetXaxis()->CenterTitle();
-			gre->GetYaxis()->CenterTitle();
-			gre->Draw("ALZ");      
-			gr->Draw("L");
-			
-			TLegend *legend=new TLegend(0.67,0.8,0.94,0.9);
-			legend->SetTextFont(72);
-			legend->SetTextSize(0.03);
-			legend->AddEntry(gre,"Temp diff Error", "l");
-			legend->AddEntry(gr,"Temp diff Lund-Visby", "l");			
-			legend->Draw();
-			
-			c1->Modified();
-			c1->Update();
-			
-			UDLund.close();
-			UDVisby.close();
+			if (yearToCompute == yearnow){ // records data if the year being read is the desired year
+				lundT.push_back (tempno);
+				stdLund.push_back(stddevs);
+				countL.push_back(ncount);
+			}	
 		}
+		while (getline(UDVisby, line)){ // same as the above code block, but for visby rather than lund
+			UDVisby >> year >> month >> day >> temp >> status >> stdivs >> n;
+			
+			int yearnow = ::atoi(year.c_str()); 
+			float stddevs = ::atof(stdivs.c_str());
+			float ncount = ::atof(n.c_str());
+			float tempno = ::atof(temp.c_str()); 
+
+			if (yearToCompute == yearnow){
+				visbyT.push_back (tempno);
+				stdVisby.push_back(stddevs);
+				countV.push_back(ncount);
+			}
+		}
+		int nt = lundT.size(); // the loop of the comparison being made, this is based on the size of the lund vector, meaning that we don't have problems with leap years, etc.
+		for (Int_t i = 0; i < nt; i++ ) {
+			diff_T.push_back(lundT.at(i)-visbyT.at(i));
+			stddevs.push_back( sqrt( stdLund.at(i)*stdLund.at(i)/countL.at(i)  + stdVisby.at(i)*stdVisby.at(i)/countV.at(i) ) );
+		}
+		
+		TCanvas *c1 = new TCanvas("c1","Temperature comparison between Lund and Visby",200,10,700,500);// this code is used for drawing the graph
+		Float_t x[nt], y[nt], ex[nt], ey[nt];
+		for (Int_t i=0;i<nt;i++) {
+			x[i] = i+1;
+			y[i] = diff_T.at(i);
+			ex[i] = 0;
+			ey[i] = stddevs.at(i);
+			cout << x[i] << " || " << y[i] <<endl;
+		}
+		TGraph* gr = new TGraph(nt,x,y);	
+		TGraphErrors* gre = new TGraphErrors(nt,x,y,ex,ey);
+		gre->SetLineWidth(4); //setting line width and color
+		gre->SetLineColor(kCyan);
+		gr->SetLineWidth(2);
+		gr->SetLineColor(kBlack);
+		
+		gre->GetXaxis()->SetTitle("Day of year");
+		gre->GetYaxis()->SetTitle("Temperature [^{o}C]");
+		gre->GetXaxis()->CenterTitle();
+		gre->GetYaxis()->CenterTitle();
+		gre->Draw("ALZ");      
+		gr->Draw("L");
+		
+		TLegend *legend=new TLegend(0.67,0.8,0.94,0.9);
+		legend->SetTextFont(72);
+		legend->SetTextSize(0.03);
+		legend->AddEntry(gre,"Temp diff Error", "l");
+		legend->AddEntry(gr,"Temp diff Lund-Visby", "l");			
+		legend->Draw();
+		
+		c1->Modified();
+		c1->Update();
+		
+		UDLund.close();
+		UDVisby.close();
+		
 	} 
 
-	//I don't think we're using these...
 	private:
-	unsigned short day;
-	unsigned short month; 
+	int day;
+	int month;
 };
 
 #endif
