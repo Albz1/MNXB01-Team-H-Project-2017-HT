@@ -66,6 +66,7 @@ void temperatureOnDay(){
 	string VisbyFile = "usefulDataVisby.dat" ;
 	string LundFile = "usefulDataLund.dat" ;
 	string cityFile;
+	string cityName;
 	string userInput;
 	
 	tempTrender daytemp = tempTrender(cityFile);
@@ -75,11 +76,13 @@ void temperatureOnDay(){
 	
 	if (userInput == "v") { 
 		cityFile = VisbyFile;
-			daytemp.tempOnDay(cityFile);
+		cityName = "Visby";
+			daytemp.tempOnDay(cityFile,cityName);
 	}
 	else if (userInput == "l") {
 			cityFile = LundFile;
-			daytemp.tempOnDay(cityFile);
+			cityName = "Lund";
+			daytemp.tempOnDay(cityFile,cityName);
 	}
 	else {cout << "very well. " <<endl;}
 

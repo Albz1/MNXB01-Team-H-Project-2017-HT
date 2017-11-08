@@ -52,3 +52,9 @@ Added some error messages and a histogram for one day over the years.
 1.01.08.02, 06/11/2017
 Improved the code for plotting and removed unnecessary code.
 
+1.01.08.03, 06/11/2017
+Improved the code for the temperature of a single day, and updated the histogram the function prints.
+
+1.01.08.04, 06/11/2017
+Added standard deviation functionality for the comparison function.
+
