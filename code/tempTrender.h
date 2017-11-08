@@ -441,8 +441,9 @@ class tempTrender {
 		
 		if (usrChoice == "yearmean") {
 			cout << "Data exists from both sets starting 1961. Which year do you want to compare?" <<endl;
-			int yearToCompute;
-			cin >> yearToCompute;
+			string computeYear;
+			cin >> computeYear;
+			int yearToCompute = ::atoi(computeYear.c_str());
 			//this should print a graph of the difference in temperature between lund and visby (lundT-visbyT)
 			
 			string lundFileName = "usefulDataLund.dat"; //defines datafile paths
@@ -493,8 +494,14 @@ class tempTrender {
 				diff_T.push_back(lundT.at(i)-visbyT.at(i));
 				stddevs.push_back( sqrt( stdLund.at(i)*stdLund.at(i)/countL.at(i)  + stdVisby.at(i)*stdVisby.at(i)/countV.at(i) ) );
 			}
+			string cTitle = "Temperature difference, Lund - Visby [";
+			cTitle.append(computeYear.c_str());
+			cTitle.append("].");
 			
-			TCanvas *c1 = new TCanvas("c1","Temperature comparison between Lund and Visby",200,10,700,500);
+			string saveAsName = "../Results/CompareData/diff_";
+			saveAsName.append(computeYear.c_str());
+			saveAsName.append(".png");
+			TCanvas *c1 = new TCanvas("c1",cTitle.c_str(),200,10,700,500);
 			Float_t x[nt], y[nt], ex[nt], ey[nt];
 			for (Int_t i=0;i<nt;i++) {
 				x[i] = i+1;
@@ -526,7 +533,7 @@ class tempTrender {
 			
 			c1->Modified();
 			c1->Update();
-			
+			c1->SaveAs(saveAsName.c_str());
 			UDLund.close();
 			UDVisby.close();
 		}
