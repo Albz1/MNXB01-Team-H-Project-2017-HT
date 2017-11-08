@@ -217,7 +217,7 @@ class tempTrender {
 	void tempOnDay(string cityFile = "NaN") { // shows every year temperature of a chosen year.
 		//cout << "Using file: " << cityFile << endl;
 		
-		 TH1D* fTemp = new TH1D("fTemp", "Temperature distribution x; Counts", // used for making a histogram.
+		 TH1D* fTemp = new TH1D("Values", "Temperature distribution x; Counts", // used for making a histogram.
 			150, -20, 40);
 		
 		vector<double> temperature;
@@ -360,8 +360,9 @@ class tempTrender {
 	    // create canvas for hPhi
 	    TCanvas* c1 = new TCanvas("c1", "fTemp canvas", 900, 600);
 	    fTemp->SetMinimum(0);
-	    fTemp->Draw();
 	    fTemp->SetFillColor(2);
+	    fTemp->Draw();
+	    
 	
 	/*
 		double mean = fTemp->GetMean(); //The mean of the distribution
@@ -370,7 +371,7 @@ class tempTrender {
 	 	*/
 	 	
 	    fTemp->SetTitle("Temperature [C]; Temperature [#circC]; Counts" ); //sets the lable of axis
-
+		
 	
 		stringstream legendDateTest;
 		legendDateTest << "Temperature on " << day << "/" << month;
