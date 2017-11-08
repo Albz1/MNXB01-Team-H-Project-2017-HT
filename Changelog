@@ -61,3 +61,6 @@ Added standard deviation functionality for the comparison function.
 1.01.08.05, 08/11/2017
 Commented most of the code and removed GY-comparison, as it did nothing.
 
+1.01.08.06, 08/11/2017
+Updated the compare function so that it is up to standard with the yearmean function.
+
