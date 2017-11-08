@@ -393,10 +393,6 @@ class tempTrender {
 		file.close();
 	}
 	
-	
-	
-	
-	
 	void GY_comparison(string cityFile = "NaN") { //was not able to do the Y/G comparison since we don't include them in the "usefulData" file
 		cout << "Using file: " << cityFile << endl;
 		vector<double> temperatureY;
