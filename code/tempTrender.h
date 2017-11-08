@@ -214,9 +214,8 @@ class tempTrender {
 	}
 
 	void tempOnDay(string cityFile = "NaN", string cityName = "NaN") { // shows every year temperature of a chosen year.
-		//cout << "Using file: " << cityFile << endl;
 		
-		 TH1D* fTemp = new TH1D("Values", "Temperature distribution x; Counts", // used for making a histogram.
+		TH1D* dayTemp = new TH1D("Values", "Temperature distribution x; Counts", // used for making a histogram.
 			150, -20, 40);
 		
 		vector<double> temperature;
@@ -324,7 +323,7 @@ class tempTrender {
 		
 		
 		
-		ifstream file(cityFile.c_str());
+		ifstream file(cityFile.c_str()); // reading a file
 		
 		double dummyYear; // year is not used in actual data, however because values from the file are taken in order, it has to be assigned to something. This is also usefull for checking if the code works properly.
 		string dummyTime; // same case as for dummyYear.
@@ -345,11 +344,10 @@ class tempTrender {
 			}
 		}
 		
-		TF1* dayTemp = new TF1("fTemp", "[0]", -20, 40);
 		
 		unsigned short ntemp = temperature.size(); // using temperature.size() inside of the for loop doesnt always work propperly, so the length of the for loop was defined outside.
 		for(Int_t k = 0; k < ntemp; k++){ // a for loop to fill a histogram.
-			fTemp->Fill(temperature[k]);
+			dayTemp->Fill(temperature[k]);
 		}
 		string saveAs();
 		// Set ROOT drawing styles
@@ -357,36 +355,36 @@ class tempTrender {
 	    gStyle->SetOptFit(1111);
 
 	    // create canvas for hPhi
-	    TCanvas* c1 = new TCanvas("c1", "fTemp canvas", 900, 600);
-	    fTemp->SetMinimum(0);
-	    fTemp->SetFillColor(2);
-	    fTemp->Draw();
+	    TCanvas* c1 = new TCanvas("c1", "dayTemp canvas", 900, 600);
+	    dayTemp->SetMinimum(0);
+	    dayTemp->SetFillColor(2);
+	    dayTemp->Draw();
 	    
 	
-	/*
-		double mean = fTemp->GetMean(); //The mean of the distribution
-		double stdev = fTemp->GetRMS(); //The standard deviation	
-	    //fTemp->SetAxisRange(0, 20, "Y"); //sets the axis range
-	 	*/
+
+		double mean = dayTemp->GetMean(); //The mean of the distribution
+		double stdev = dayTemp->GetRMS(); //The standard deviation	
+	    //dayTemp->SetAxisRange(0, 20, "Y"); //sets the axis range
 	 	
-	    fTemp->SetTitle("Temperature [C]; Temperature [#circC]; Counts" ); //sets the lable of axis
+	    dayTemp->SetTitle("Temperature [C]; Temperature [#circC]; Counts" ); //sets the lable of axis
 		
 	
-		stringstream legendDateTest;
+		stringstream legendDateTest; // constructs a string for the legend.
 		legendDateTest << "Temperature on " << day << "/" << month;
 		string legendDate = legendDateTest.str();
 	
-		stringstream saveAsStream;
+		stringstream saveAsStream; // construcs a string for the canvas name
 		saveAsStream << "../Results/TempOnDay/temp"<< day << "-" << month << cityName<< ".png";
 		string saveAsName = saveAsStream.str();
+		
 		// draw the legend
+		
 	    TLegend *legend=new TLegend(0.9,0.8,0.65,0.90);
 	    legend->SetTextFont(2);
 	    legend->SetTextSize(0.03);
- 	    legend->AddEntry(fTemp, legendDate.c_str(), "f");
+ 	    legend->AddEntry(dayTemp, legendDate.c_str(), "f");
  	    legend->Draw();
-
-	  
+		
 	  
 	    // Save the canvas as a picture
 	    c1->SaveAs(saveAsName.c_str());
