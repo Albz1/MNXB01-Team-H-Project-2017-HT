@@ -64,3 +64,8 @@ Commented most of the code and removed GY-comparison, as it did nothing.
 1.01.08.06, 08/11/2017
 Updated the compare function so that it is up to standard with the yearmean function.
 
+1.01.08.07, 08/11/2017
+Fixed a bug with yearmean that made it impossible to stop giving city names.
+
+1.02.01.01, 08/11/2017
+Commented and finalized the code, specifically in the temponday function.
