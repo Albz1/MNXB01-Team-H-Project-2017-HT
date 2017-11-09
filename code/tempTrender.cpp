@@ -4,10 +4,7 @@
 
 using namespace std;
 
-tempTrender::tempTrender(string filePath) {
-	cout << "The user supplied " << filePath << " as the path to the data file." << endl;
-	cout << "You should probably store this information in a member variable of the class. Good luck with the project! :)" << endl;
-}
+tempTrender::tempTrender(string filePath) {}
 
 void fileread() {
 	string visbyDatafilePath = "../datasets/smhi-opendata_Visby.csv"; //a relative path to the visby data file in the directory tree.
@@ -39,60 +36,57 @@ void yearmean(){
 	tempTrender visbyTempData = tempTrender("usefulDataVisby.dat"); // we create a new instance of the object tempTrender for the visby data.
 	tempTrender lundTempData = tempTrender("usefulDataLund.dat");
 	checkafile:
-	cout << "Do you want to find the mean temperatures during a single year? [y]/[n]"<<endl;
-	string userInput;
-	cin >> userInput;
 	 //we call the readFile data function to first create a usefulData file, which improves formatting.
-	if (userInput == "y") {  //we ask the user if they want to create new data files for lund or visby. 
-		cout << "Which of the two cities would you like to do this for? Lund [l], or Visby [v]. " <<endl;
-		string cityInput;
-		cin >> cityInput;
-		cout << "Which year would you like to investigate?" << endl;
-		int yearchecked;
-		cin >> yearchecked;
-		if (cityInput == "l") {
-			lundTempData.tempPerDay("Lund", yearchecked);
-			goto checkafile;
-		}	
-		else if (cityInput == "v") {
-			visbyTempData.tempPerDay("Visby", yearchecked);
-			goto checkafile;
+	cout << "Which of the two cities would you like to do this for? Lund [l], or Visby [v]. " <<endl;
+	string cityInput;
+	cin >> cityInput;
+	cout << "Which year would you like to investigate?" << endl;
+	string yearchecked;
+	cin >> yearchecked;
+	if (cityInput == "l") {
+		lundTempData.tempPerDay("Lund", yearchecked);
+		goto checkafile;
+	}	
+	else if (cityInput == "v") {
+		visbyTempData.tempPerDay("Visby", yearchecked);
+		goto checkafile;
 		}
+	
+	else {cout << "Invalid city." <<endl;
 	}
-	else {cout << "very well. " <<endl;
-	
-	
-	
-	
-	
-	
-	
-	
 }
 
-	
-}
-
-
-void temperatureOnDay(){
-	string cityFile = "usefulDataVisby.dat" ;
-	/*
+void temperatureOnDay(){// calls the temperatureOnDay function in tempTrender.h
+	string VisbyFile = "usefulDataVisby.dat" ;
+	string LundFile = "usefulDataLund.dat" ;
+	string cityFile;
+	string cityName;
 	string userInput;
+	
+	tempTrender daytemp = tempTrender(cityFile);
 
-	cout << "Would you like to check Lund (l) or Visby (v) data?" << endl;
+	cout << "Would you like to check Lund (l) or Visby (v) data? Enter any other imput in order to quit." << endl;
+	cin >> userInput;
+	
 	if (userInput == "v") { 
-		cityFile = "usefulDataVisby.dat";
+		cityFile = VisbyFile;
+		cityName = "Visby";
+			daytemp.tempOnDay(cityFile,cityName);
 	}
 	else if (userInput == "l") {
-			cityFile = "usefulDataLund.dat";
+			cityFile = LundFile;
+			cityName = "Lund";
+			daytemp.tempOnDay(cityFile,cityName);
 	}
 	else {cout << "very well. " <<endl;}
-	*/
-	tempTrender daytemp = tempTrender(cityFile);
-	daytemp.tempOnDay(cityFile);
-	
-
 
 }
+
+void compareData(){//calls compareData in tempTrender.h
+	tempTrender visbyTempData = tempTrender("usefulDataVisby.dat");
+	visbyTempData.compareData();
+}
+
+
 
 
