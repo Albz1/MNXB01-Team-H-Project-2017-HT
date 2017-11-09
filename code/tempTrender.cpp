@@ -45,11 +45,9 @@ void yearmean(){
 	cin >> yearchecked;
 	if (cityInput == "l") {
 		lundTempData.tempPerDay("Lund", yearchecked);
-		goto checkafile;
 	}	
 	else if (cityInput == "v") {
 		visbyTempData.tempPerDay("Visby", yearchecked);
-		goto checkafile;
 		}
 	
 	else {cout << "Invalid city." <<endl;
