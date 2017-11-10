@@ -69,3 +69,6 @@ Fixed a bug with yearmean that made it impossible to stop giving city names.
 
 1.02.01.01, 08/11/2017
 Commented and finalized the code, specifically in the temponday function.
+
+1.02.01.02, 10/11/2017
+Fixed a slight bug with one of the temperature functions that caused it to not quit after running once.
