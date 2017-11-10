@@ -144,7 +144,7 @@ class tempTrender {
 		
 		
 		string year, month, day, temp, line, status, stdev, n; 
-		
+				
 		while (getline(usefulData, line)){
 			
 			usefulData >> year >> month >> day >> temp >> status >> stdev >> n; // here all variables are assigned
@@ -212,7 +212,6 @@ class tempTrender {
 		c1->SaveAs(saveAsName.c_str());
 		usefulData.close();
 	}
-
 
 	void tempOnDay(string cityFile = "NaN", string cityName = "NaN") { // this function reads the temperature of a single day during all years measured and outputs the temperatures in the histogram
 
@@ -495,7 +494,7 @@ class tempTrender {
 		UDLund.close();
 		UDVisby.close();
 	}
-	
+		
 	private:
 	int day;
 	int month;
