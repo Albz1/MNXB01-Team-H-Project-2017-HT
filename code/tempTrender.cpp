@@ -9,7 +9,6 @@ tempTrender::tempTrender(string filePath) {}
 void tempTrender::readFile(string filePath, string cityName) {
 	vector<float> temperatures;
 		
-		
 		ifstream file(filePath.c_str());
 		string datafileName = "usefulData";
 		datafileName.append(cityName);
@@ -105,6 +104,7 @@ void tempTrender::readFile(string filePath, string cityName) {
 
 
 void tempTrender::tempPerDay(string cityName, string computeYear) {
+	
 	int yearToCompute = ::atoi(computeYear.c_str());
 	string datafileName = "usefulData";
 	datafileName.append(cityName);
@@ -329,7 +329,7 @@ void tempTrender::tempOnDay(string cityFile, string cityName) {
 	    gStyle->SetOptFit(1111);
 
 	    // create canvas for temperature values
-	    TCanvas* c1 = new TCanvas("c1", "dayTemp canvas", 900, 600);
+	    TCanvas* c2 = new TCanvas("c2", "dayTemp canvas", 900, 600);
 	    dayTemp->Draw();    
 	    dayTemp->SetMinimum(0);
 	    dayTemp->SetFillColor(2);
@@ -358,10 +358,11 @@ void tempTrender::tempOnDay(string cityFile, string cityName) {
 	    legend->SetTextSize(0.03);
  	    legend->AddEntry(dayTemp, legendDate.c_str(), "f");
  	    legend->Draw();  
-
-	  
+		
+		c2->Modified();
+		c2->Update();
 	    // Save the canvas as a picture
-	    c1->SaveAs(saveAsName.c_str());
+	    c2->SaveAs(saveAsName.c_str());
 	    
 		file.close();
 		
@@ -431,7 +432,7 @@ void tempTrender::compareData() {
 		string saveAsName = "../Results/CompareData/diff_";
 		saveAsName.append(computeYear.c_str());
 		saveAsName.append(".png");
-		TCanvas *c1 = new TCanvas("c1",cTitle.c_str(),200,10,700,500);
+		TCanvas *c3 = new TCanvas("c3",cTitle.c_str(),200,10,700,500);
 		Float_t x[nt], y[nt], ex[nt], ey[nt];
 		for (Int_t i=0;i<nt;i++) {
 			x[i] = i+1;
@@ -461,9 +462,9 @@ void tempTrender::compareData() {
 		legend->AddEntry(gr,"Temp diff Lund-Visby", "l");			
 		legend->Draw();
 		
-		c1->Modified();
-		c1->Update();
-		c1->SaveAs(saveAsName.c_str());
+		c3->Modified();
+		c3->Update();
+		c3->SaveAs(saveAsName.c_str());
 		UDLund.close();
 		UDVisby.close();
 }

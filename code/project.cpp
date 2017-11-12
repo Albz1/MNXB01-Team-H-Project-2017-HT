@@ -17,6 +17,7 @@ void fileread() {
 	tempTrender visbyTempData = tempTrender(visbyDatafilePath); // we create a new instance of the object tempTrender for the visby data.
 	tempTrender lundTempData = tempTrender(lundDatafilePath);
 	createfile:
+	cout << "---fileread()---"<<endl;
 	cout << "Do you want to create new useful data file paths for any of the two cities we analyze? [y]/[n]"<<endl;
 	string userInput;
 	cin >> userInput;
@@ -42,6 +43,7 @@ void yearmean(){
 	tempTrender lundTempData = tempTrender("usefulDataLund.dat");
 	checkafile:
 	 //we call the readFile data function to first create a usefulData file, which improves formatting.
+	cout << "Plot average temperature of each day during the chosen year" <<endl;
 	cout << "Which of the two cities would you like to do this for? Lund [l], or Visby [v]. " <<endl;
 	string cityInput;
 	cin >> cityInput;
@@ -67,7 +69,7 @@ void temperatureOnDay(){// calls the tempOnDay function in tempTrender.h
 	string userInput;
 	
 	tempTrender daytemp = tempTrender(cityFile);
-
+	cout << "Plotting the average temperatures measured for a given day"<<endl;
 	cout << "Would you like to check Lund (l) or Visby (v) data? Enter any other imput in order to quit." << endl;
 	cin >> userInput;
 	
@@ -86,6 +88,7 @@ void temperatureOnDay(){// calls the tempOnDay function in tempTrender.h
 }
 
 void compareData(){//calls compareData in tempTrender.h
+	cout << "Comparing data between the two given data sets." <<endl;
 	tempTrender visbyTempData = tempTrender("usefulDataVisby.dat");
 	visbyTempData.compareData();
 }
@@ -93,4 +96,10 @@ void compareData(){//calls compareData in tempTrender.h
 void project() {
 	string pathToFile = "/home/courseuser/git_project/datasets/smhi-opendata_Visby.csv"; // Only use if you're Albin! Put the path to your data file here
 	string pathToVisby = "../datasets/smhi-opendata_Visby.csv"; // Now contains the relative path, works in console, not sure how it will react in code
+	
+	fileread(); //A full demonstration of our code!
+	yearmean();
+	temperatureOnDay();
+	compareData();
+	
 }
